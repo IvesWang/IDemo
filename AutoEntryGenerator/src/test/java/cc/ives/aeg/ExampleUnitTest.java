@@ -1,4 +1,4 @@
-package cc.ives.autoentrygenerator;
+package cc.ives.aeg;
 
 import org.junit.Test;
 

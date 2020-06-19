@@ -1,4 +1,4 @@
-package cc.ives.autoentrygenerator.annotation;
+package cc.ives.aeg.annotation;
 
 /**
  * @author wangziguang

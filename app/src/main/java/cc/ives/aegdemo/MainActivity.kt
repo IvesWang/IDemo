@@ -2,7 +2,7 @@ package cc.ives.aegdemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import cc.ives.autoentrygenerator.AutoEntryGenerator
+import cc.ives.aeg.AutoEntryGenerator
 
 class MainActivity : AppCompatActivity() {
 

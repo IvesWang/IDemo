@@ -1,32 +1,19 @@
-package cc.ives.autoentrygenerator;
+package cc.ives.aeg;
 
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import com.ives.common.AgentApp;
 import com.ives.common.JLog;
 import com.ives.common.util.ClassUtil;
 
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.URLClassLoader;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Predicate;
 
-import cc.ives.autoentrygenerator.annotation.Entry;
-import cc.ives.autoentrygenerator.annotation.EntryOnClick;
+import cc.ives.aeg.annotation.EntryOnClick;
 
 /**
  * @author wangziguang

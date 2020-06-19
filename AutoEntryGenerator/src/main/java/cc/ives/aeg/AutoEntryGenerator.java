@@ -1,4 +1,4 @@
-package cc.ives.autoentrygenerator;
+package cc.ives.aeg;
 
 import com.ives.common.JLog;
 
@@ -7,8 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import cc.ives.autoentrygenerator.annotation.Entry;
-import cc.ives.autoentrygenerator.annotation.EntryClassInfo;
+import cc.ives.aeg.annotation.Entry;
+import cc.ives.aeg.annotation.EntryClassInfo;
 
 /**
  * @author wangziguang

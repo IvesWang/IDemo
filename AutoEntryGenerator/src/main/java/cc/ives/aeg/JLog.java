@@ -1,4 +1,4 @@
-package cc.ives.autoentrygenerator;
+package cc.ives.aeg;
 
 import android.text.TextUtils;
 import android.util.Log;
