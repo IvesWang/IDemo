@@ -2,10 +2,6 @@ package cc.ives.aeg;
 
 import android.content.pm.PackageManager;
 
-import com.ives.common.AgentApp;
-import com.ives.common.JLog;
-import com.ives.common.util.ClassUtil;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -80,7 +76,7 @@ public class AegHelper {
      */
     public static Set<String> getAllClassUnderPackage(){
         try {
-            return ClassUtil.getFileNameByPackageName(AgentApp.getContext(), AgentApp.getContext().getPackageName());
+            return ClassUtil.getFileNameByPackageName(AEGContext.getAppContext(), AEGContext.getAppContext().getPackageName());
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
