@@ -6,10 +6,15 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import cc.ives.aeg.AEGContext;
+import cc.ives.aeg.AutoEntryGenerator;
+import cc.ives.aeg.annotation.EntryClassInfo;
 import cc.ives.aeg.annotation.EntryOnClick;
 
 /**
@@ -87,5 +92,25 @@ public class AegHelper {
             e.printStackTrace();
         }
         return new HashSet<>();
+    }
+
+    /**
+     * 返回扫描到的类信息，此方法会阻塞当前线程。
+     * 调用前必须要保证Context已经初始化
+     * @return
+     */
+    public static List<EntryClassInfo> getEntryClassListSync(){
+
+        List<EntryClassInfo> infoList = null;
+        infoList = AutoEntryGenerator.scan();
+
+        Collections.sort(infoList, new Comparator<EntryClassInfo>() {
+            @Override
+            public int compare(EntryClassInfo o1, EntryClassInfo o2) {
+                return o1.getIndexTime() - o2.getIndexTime();
+            }
+        });
+
+        return infoList;
     }
 }

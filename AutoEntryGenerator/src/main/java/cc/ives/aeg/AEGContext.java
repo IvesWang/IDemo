@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import cc.ives.aeg.ui.AutoEntryListFragment;
+import cc.ives.aeg.ui.AutoEntryOldListFragment;
 
 /**
  * @author wangziguang
@@ -34,6 +35,17 @@ public class AEGContext {
         fragmentTransaction.replace(
                 android.R.id.content,
                 new AutoEntryListFragment(),
+                "MainListFragment"
+        );
+        fragmentTransaction.commit();
+    }
+
+    /**/
+    public static void init(android.app.FragmentManager fragmentManager){//todo 将来有其它模块需要做初始化的话，可考虑设计到其它类，一块初始化
+        android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(
+                android.R.id.content,
+                new AutoEntryOldListFragment(),
                 "MainListFragment"
         );
         fragmentTransaction.commit();
