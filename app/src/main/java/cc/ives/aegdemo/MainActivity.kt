@@ -2,6 +2,7 @@ package cc.ives.aegdemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import cc.ives.aeg.AEGContext
 import cc.ives.aeg.AutoEntryGenerator
 import cc.ives.aeg.annotation.Entry
 import cc.ives.aeg.ui.AutoEntryListFragment
@@ -13,13 +14,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 操作步骤二 添加库的fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(
-            android.R.id.content,
-            AutoEntryListFragment(),
-            "MainListFragment"
-        )
-        fragmentTransaction.commit()
+        AEGContext.init(supportFragmentManager)
     }
 }

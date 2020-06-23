@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import cc.ives.aeg.AEGContext;
 import cc.ives.aeg.AegHelper;
 import cc.ives.aeg.JLog;
 import cc.ives.aeg.annotation.EntryClassInfo;
@@ -36,6 +37,13 @@ public class AutoEntryListFragment extends ListFragment {
     private static final String TAG = AutoEntryListFragment.class.getSimpleName();
 
     private List<EntryClassInfo> entryClassInfoList;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AEGContext.setAppContext(getContext().getApplicationContext());
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
