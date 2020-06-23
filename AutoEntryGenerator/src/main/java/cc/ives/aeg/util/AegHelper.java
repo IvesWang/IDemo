@@ -1,4 +1,4 @@
-package cc.ives.aeg;
+package cc.ives.aeg.util;
 
 import android.content.pm.PackageManager;
 
@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 
+import cc.ives.aeg.AEGContext;
 import cc.ives.aeg.annotation.EntryOnClick;
 
 /**

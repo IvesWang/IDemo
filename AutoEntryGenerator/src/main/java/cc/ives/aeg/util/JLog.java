@@ -1,4 +1,4 @@
-package cc.ives.aeg;
+package cc.ives.aeg.util;
 
 import android.text.TextUtils;
 import android.util.Log;

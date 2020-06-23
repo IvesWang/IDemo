@@ -1,4 +1,4 @@
-package cc.ives.aeg;
+package cc.ives.aeg.util;
 
 // Copy from galaxy sdk ${com.alibaba.android.galaxy.utils.ClassUtils}
 
@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cc.ives.aeg.BuildConfig;
 import dalvik.system.DexFile;
 
 /**

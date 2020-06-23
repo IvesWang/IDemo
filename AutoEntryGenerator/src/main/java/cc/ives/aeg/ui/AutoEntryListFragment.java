@@ -24,8 +24,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import cc.ives.aeg.AEGContext;
-import cc.ives.aeg.AegHelper;
-import cc.ives.aeg.JLog;
+import cc.ives.aeg.util.AegHelper;
+import cc.ives.aeg.util.JLog;
 import cc.ives.aeg.annotation.EntryClassInfo;
 
 /**
