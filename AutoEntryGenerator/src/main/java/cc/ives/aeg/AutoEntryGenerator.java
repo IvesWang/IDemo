@@ -22,10 +22,15 @@ public class AutoEntryGenerator {
     private static SoftReference<List<EntryClassInfo>> entryClassCache;
 
     /**
-     * 扫描并缓存下所有的entry注解类
+     * 扫描并缓存下所有的entry注解类。如果有更好的位置，可以考虑提前一点首次调用这个方法初始化缓存
      * @return
      */
-    public static void scanEntryClass(){
+    private static synchronized void scanEntryClass(){
+        if (entryClassCache != null && entryClassCache.get() != null){
+            JLog.i(TAG, "scanEntryClass: cache is valid.");
+            return;
+        }
+
         List<EntryClassInfo> infoList = new ArrayList<>();
 
 //        // 获取所有activity
@@ -107,11 +112,8 @@ public class AutoEntryGenerator {
         entryClassCache = new SoftReference<>(infoList);
     }
 
-    // todo 可考虑优化多线程下的访问
     public static List<EntryClassInfo> getEntryClass(){
-        if (entryClassCache == null || entryClassCache.get() == null){
-            scanEntryClass();
-        }
+        scanEntryClass();
         return entryClassCache.get();
     }
 
