@@ -10,7 +10,7 @@ import cc.ives.aeg.annotation.Entry
  * @date 2020/6/23
  * @description android.app.Activity的测试
  */
-@Entry(indexTime = 20062302, desc = "测试老activity")
+@Entry(indexTime = 20062302, desc = "测试老activity", preEntry = MainActivity::class)
 class OldMainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

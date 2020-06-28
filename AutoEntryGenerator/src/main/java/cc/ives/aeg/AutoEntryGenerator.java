@@ -1,10 +1,14 @@
 package cc.ives.aeg;
 
+
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import cc.ives.aeg.annotation.Entry;
 import cc.ives.aeg.annotation.EntryClassInfo;
@@ -125,4 +129,37 @@ public class AutoEntryGenerator {
         }
         return indexTime;
     }
+
+    /**
+     * 获取所有二级类信息
+     * @param preEntry 当为null时返回所有的0级类
+     * @return
+     */
+    public static List<EntryClassInfo> getChildClassInfo(final Class preEntry){
+        scanEntryClass();
+        List<EntryClassInfo> allEntryClass = entryClassCache.get();
+
+        List<EntryClassInfo> children = new ArrayList<>();
+        Iterator<EntryClassInfo> iterator = allEntryClass.iterator();
+        EntryClassInfo itemEntryClz;
+        while (iterator.hasNext()){
+            itemEntryClz = iterator.next();
+            // 0级类
+            if (preEntry == null && itemEntryClz.getPreEntry() == Object.class){//todo kotlin的class和java的class是否相等
+                children.add(itemEntryClz);
+            }else if (preEntry != null && preEntry.equals(itemEntryClz.getPreEntry())){// 二级类
+                children.add(itemEntryClz);
+            }
+        }
+        return children;
+    }
+
+    /**
+     * 返回所有的0级类
+     * @return
+     */
+    public static List<EntryClassInfo> getRootClassInfo(){
+        return getChildClassInfo(null);
+    }
+
 }
