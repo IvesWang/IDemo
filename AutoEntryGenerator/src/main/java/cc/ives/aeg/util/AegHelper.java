@@ -102,7 +102,7 @@ public class AegHelper {
     public static List<EntryClassInfo> getEntryClassListSync(){
 
         List<EntryClassInfo> infoList = null;
-        infoList = AutoEntryGenerator.scan();
+        infoList = AutoEntryGenerator.getEntryClass();
 
         Collections.sort(infoList, new Comparator<EntryClassInfo>() {
             @Override

@@ -17,6 +17,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Entry {
     int indexTime();// 当前层级的排序索引，使用时间格式，比如：20052301表示2020年5月23日第1个增加的入口类
-    Class parent() default Void.class; // 父层级的类
     String desc() default "";// 描述名，用于显示，无则用类名
+    Class preEntry() default Object.class;// 上一个入口的类
 }

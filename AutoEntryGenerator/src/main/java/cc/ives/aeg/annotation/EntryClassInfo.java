@@ -8,7 +8,7 @@ package cc.ives.aeg.annotation;
 public class EntryClassInfo {
     private int indexTime;
     private String desc;
-    private Class parent;
+    private Class preEntry;
     private Class presentClass;// 当前被注解的类
 
     public int getIndexTime() {
@@ -27,12 +27,12 @@ public class EntryClassInfo {
         this.desc = desc;
     }
 
-    public Class getParent() {
-        return parent;
+    public Class getPreEntry() {
+        return preEntry;
     }
 
-    public void setParent(Class parent) {
-        this.parent = parent;
+    public void setPreEntry(Class preEntry) {
+        this.preEntry = preEntry;
     }
 
     public Class getPresentClass() {

@@ -1,5 +1,6 @@
 package cc.ives.aeg;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +19,13 @@ import cc.ives.aeg.util.JLog;
 public class AutoEntryGenerator {
     private static final String TAG = "AutoEntryGenerator";
 
-    public static List<EntryClassInfo> scan(){
+    private static SoftReference<List<EntryClassInfo>> entryClassCache;
+
+    /**
+     * 扫描并缓存下所有的entry注解类
+     * @return
+     */
+    public static void scanEntryClass(){
         List<EntryClassInfo> infoList = new ArrayList<>();
 
 //        // 获取所有activity
@@ -77,7 +84,7 @@ public class AutoEntryGenerator {
             while (classIterator.hasNext()){
 
                 entryClassName = classIterator.next();
-                JLog.d(TAG, String.format("##########scan() className:%s", entryClassName));
+                JLog.d(TAG, String.format("##########getEntryClass() className:%s", entryClassName));
                 entryClass = Class.forName(entryClassName);
 
                 if(entryClass.isAnnotationPresent(Entry.class)){
@@ -88,7 +95,7 @@ public class AutoEntryGenerator {
                     Entry entryAnnotation = (Entry) entryClass.getAnnotation(Entry.class);
                     entryClassInfo.setDesc(entryAnnotation.desc());
                     entryClassInfo.setIndexTime(checkIndexTimeFormat(entryAnnotation.indexTime()));
-                    entryClassInfo.setParent(entryAnnotation.parent());
+                    entryClassInfo.setPreEntry(entryAnnotation.preEntry());
 
                     infoList.add(entryClassInfo);
                 }
@@ -97,7 +104,15 @@ public class AutoEntryGenerator {
             e.printStackTrace();
         }
 
-        return infoList;
+        entryClassCache = new SoftReference<>(infoList);
+    }
+
+    // todo 可考虑优化多线程下的访问
+    public static List<EntryClassInfo> getEntryClass(){
+        if (entryClassCache == null || entryClassCache.get() == null){
+            scanEntryClass();
+        }
+        return entryClassCache.get();
     }
 
     // 检查indexTime的格式
