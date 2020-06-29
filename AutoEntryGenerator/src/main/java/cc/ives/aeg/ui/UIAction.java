@@ -31,22 +31,22 @@ class UIAction {
     private void onItemClick(EntryClassInfo entryClassInfo, Activity activity, FragmentManager fragmentManagerX, android.app.FragmentManager fragmentManager){
 
         // activity则startActivity，否则找该类的入口点击方法
-        if (isChild(entryClassInfo.getPresentClass(), Activity.class) || isChild(entryClassInfo.getPresentClass(), FragmentActivity.class)) {
+        if (isChild(entryClassInfo.getCurrentClz(), Activity.class) || isChild(entryClassInfo.getCurrentClz(), FragmentActivity.class)) {
 
             // activity，启动该activity
-            activity.startActivity(new Intent(activity, entryClassInfo.getPresentClass()));
+            activity.startActivity(new Intent(activity, entryClassInfo.getCurrentClz()));
         }else {
 
             // 调用入口类的点击方法
-            AegHelper.invokeEntryMethod(entryClassInfo.getPresentClass());
+            AegHelper.invokeEntryMethod(entryClassInfo.getCurrentClz());
 
             // 有子操作，建立子页面
-            List<EntryClassInfo> childEntryList = AegHelper.getEntryClassListSync(entryClassInfo.getPresentClass());
+            List<EntryClassInfo> childEntryList = AegHelper.getEntryClassListSync(entryClassInfo.getCurrentClz());
             if (!childEntryList.isEmpty()){
                 if (fragmentManagerX == null){
-                    AegPage.nextNewPage(fragmentManager, entryClassInfo.getPresentClass());
+                    AegPage.nextNewPage(fragmentManager, entryClassInfo.getCurrentClz());
                 }else {
-                    AegPage.nextNewPage(fragmentManagerX, entryClassInfo.getPresentClass());
+                    AegPage.nextNewPage(fragmentManagerX, entryClassInfo.getCurrentClz());
                 }
             }
         }

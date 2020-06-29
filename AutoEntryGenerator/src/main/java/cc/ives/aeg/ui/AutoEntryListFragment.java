@@ -72,7 +72,7 @@ public class AutoEntryListFragment extends ListFragment {
                         public String apply(EntryClassInfo entryClassInfo) {
                             // 优先返回desc，否则返回类名
                             if (TextUtils.isEmpty(entryClassInfo.getDesc())){
-                                return entryClassInfo.getPresentClass().getSimpleName();
+                                return entryClassInfo.getCurrentClz().getSimpleName();
                             }
                             return entryClassInfo.getDesc();
                         }
@@ -90,7 +90,7 @@ public class AutoEntryListFragment extends ListFragment {
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         EntryClassInfo entryClassInfo = entryClassInfoList.get(position);
-        JLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getPresentClass().getCanonicalName()));
+        JLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getCurrentClz().getCanonicalName()));
 
         uiAction.onItemClick(entryClassInfo, getActivity(), getFragmentManager());
     }

@@ -3,13 +3,13 @@ package cc.ives.aeg.annotation;
 /**
  * @author wangziguang
  * @date 2020/5/23 0023
- * @description
+ * @description 入口类信息
  */
 public class EntryClassInfo {
     private int indexTime;
     private String desc;
-    private Class preEntry;
-    private Class presentClass;// 当前被注解的类
+    private Class preEntryClz;
+    private Class currentClz;// 当前被注解的类
 
     public int getIndexTime() {
         return indexTime;
@@ -27,19 +27,19 @@ public class EntryClassInfo {
         this.desc = desc;
     }
 
-    public Class getPreEntry() {
-        return preEntry;
+    public Class getPreEntryClz() {
+        return preEntryClz;
     }
 
-    public void setPreEntry(Class preEntry) {
-        this.preEntry = preEntry;
+    public void setPreEntryClz(Class preEntryClz) {
+        this.preEntryClz = preEntryClz;
     }
 
-    public Class getPresentClass() {
-        return presentClass;
+    public Class getCurrentClz() {
+        return currentClz;
     }
 
-    public void setPresentClass(Class presentClass) {
-        this.presentClass = presentClass;
+    public void setCurrentClz(Class currentClz) {
+        this.currentClz = currentClz;
     }
 }

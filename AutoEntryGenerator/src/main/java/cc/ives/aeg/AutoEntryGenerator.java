@@ -64,7 +64,7 @@ public class AutoEntryGenerator {
 //                if(activityClass.isAnnotationPresent(Entry.class)){
 //                    JLog.i(TAG, "is view entry activity");
 //                    entryClassInfo = new EntryClassInfo();
-//                    entryClassInfo.setPresentClass(activityClass);
+//                    entryClassInfo.setCurrentClz(activityClass);
 //
 //                    Entry entryAnnotation = (Entry) activityClass.getAnnotation(Entry.class);
 //                    entryClassInfo.setDesc(entryAnnotation.desc());
@@ -96,12 +96,12 @@ public class AutoEntryGenerator {
                 if(entryClass.isAnnotationPresent(Entry.class)){
                     JLog.i(TAG, "is view entry activity");
                     entryClassInfo = new EntryClassInfo();
-                    entryClassInfo.setPresentClass(entryClass);
+                    entryClassInfo.setCurrentClz(entryClass);
 
                     Entry entryAnnotation = (Entry) entryClass.getAnnotation(Entry.class);
                     entryClassInfo.setDesc(entryAnnotation.desc());
                     entryClassInfo.setIndexTime(checkIndexTimeFormat(entryAnnotation.indexTime()));
-                    entryClassInfo.setPreEntry(entryAnnotation.preEntry());
+                    entryClassInfo.setPreEntryClz(entryAnnotation.preEntry());
 
                     infoList.add(entryClassInfo);
                 }
@@ -147,9 +147,9 @@ public class AutoEntryGenerator {
         while (iterator.hasNext()){
             itemEntryClz = iterator.next();
             // 0级类
-            if (preEntry == null && itemEntryClz.getPreEntry() == Object.class){//todo kotlin的class和java的class是否相等
+            if (preEntry == null && itemEntryClz.getPreEntryClz() == Object.class){//todo kotlin的class和java的class是否相等
                 children.add(itemEntryClz);
-            }else if (preEntry != null && preEntry.equals(itemEntryClz.getPreEntry())){// 二级类
+            }else if (preEntry != null && preEntry.equals(itemEntryClz.getPreEntryClz())){// 二级类
                 children.add(itemEntryClz);
             }
         }
