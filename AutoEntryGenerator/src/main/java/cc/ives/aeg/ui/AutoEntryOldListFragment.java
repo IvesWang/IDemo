@@ -1,8 +1,6 @@
 package cc.ives.aeg.ui;
 
-import android.app.Activity;
 import android.app.ListFragment;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,7 +15,6 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentActivity;
 
 import java.util.List;
 import java.util.function.Function;
@@ -36,12 +33,24 @@ import cc.ives.aeg.util.JLog;
 public class AutoEntryOldListFragment extends ListFragment {
     private static final String TAG = AutoEntryOldListFragment.class.getSimpleName();
 
+    private Class preEntryClz;// 本fragment展示的前一个操作入口，首个fragment则为null
     private List<EntryClassInfo> entryClassInfoList;
+
+    private UIAction uiAction;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AEGContext.setAppContext(getActivity().getApplicationContext());
+        readPreEntryInfo();
+        uiAction = new UIAction();
+    }
+
+    private void readPreEntryInfo(){
+        Bundle argumentBundle = getArguments();
+        if (argumentBundle != null){
+            preEntryClz = (Class) argumentBundle.get(UIAction.KEY_ARGUMENT_PRE_ENTRY_CLZ);
+        }
     }
 
     @Nullable
@@ -53,7 +62,7 @@ public class AutoEntryOldListFragment extends ListFragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void run() {
-                entryClassInfoList = AegHelper.getEntryClassListSync();
+                entryClassInfoList = preEntryClz == null ? AegHelper.getEntryClassListSync() : AegHelper.getEntryClassListSync(preEntryClz);
 
                 List<String> classDescList = entryClassInfoList.stream().map(new Function<EntryClassInfo, String>() {
                     @Override
@@ -86,18 +95,6 @@ public class AutoEntryOldListFragment extends ListFragment {
         EntryClassInfo entryClassInfo = entryClassInfoList.get(position);
         JLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getPresentClass().getCanonicalName()));
 
-        // activity则startActivity，否则找该类的入口点击方法
-        if (isChild(entryClassInfo.getPresentClass(), Activity.class) || isChild(entryClassInfo.getPresentClass(), FragmentActivity.class)) {
-            startActivity(new Intent(getActivity(), entryClassInfo.getPresentClass()));
-        }else {
-            AegHelper.invokeEntryMethod(entryClassInfo.getPresentClass());
-        }
-    }
-
-    private boolean isChild(Class child, Class parent){
-        return child != null
-                && parent != null
-                && child.getSuperclass() != null
-                && (child.getSuperclass().equals(parent) || isChild(child.getSuperclass(), parent));
+        uiAction.onItemClick(entryClassInfo, getActivity(), getFragmentManager());
     }
 }

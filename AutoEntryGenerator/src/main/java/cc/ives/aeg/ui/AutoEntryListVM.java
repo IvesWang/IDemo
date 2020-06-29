@@ -22,12 +22,12 @@ public class AutoEntryListVM extends ViewModel {
      * 调用前必须要保证Context已经初始化
      * @return
      */
-    public LiveData<List<EntryClassInfo>> getEntryClassList(){
+    public LiveData<List<EntryClassInfo>> getEntryClassList(final Class preEntryClz){
         new Thread(new Runnable() {//todo 创建了线程
             @Override
             public void run() {
 
-                List<EntryClassInfo> infoList = AegHelper.getEntryClassListSync();
+                List<EntryClassInfo> infoList = preEntryClz == null ? AegHelper.getEntryClassListSync() : AegHelper.getEntryClassListSync(preEntryClz);
 
                 entryListData.postValue(infoList);
             }

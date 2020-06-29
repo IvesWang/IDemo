@@ -1,7 +1,5 @@
 package cc.ives.aeg.ui;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,7 +12,6 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -24,9 +21,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import cc.ives.aeg.AEGContext;
-import cc.ives.aeg.util.AegHelper;
-import cc.ives.aeg.util.JLog;
 import cc.ives.aeg.annotation.EntryClassInfo;
+import cc.ives.aeg.util.JLog;
 
 /**
  * @author wangziguang
@@ -36,12 +32,24 @@ import cc.ives.aeg.annotation.EntryClassInfo;
 public class AutoEntryListFragment extends ListFragment {
     private static final String TAG = AutoEntryListFragment.class.getSimpleName();
 
+    private Class preEntryClz;// 本fragment展示的前一个操作入口，首个fragment则为null
     private List<EntryClassInfo> entryClassInfoList;
+
+    private UIAction uiAction;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AEGContext.setAppContext(getContext().getApplicationContext());
+        readPreEntryInfo();
+        uiAction = new UIAction();
+    }
+
+    private void readPreEntryInfo(){
+        Bundle argumentBundle = getArguments();
+        if (argumentBundle != null){
+            preEntryClz = (Class) argumentBundle.get(UIAction.KEY_ARGUMENT_PRE_ENTRY_CLZ);
+        }
     }
 
     @Nullable
@@ -50,7 +58,7 @@ public class AutoEntryListFragment extends ListFragment {
 
         ViewModelProviders.of(this)
                 .get(AutoEntryListVM.class)
-                .getEntryClassList()
+                .getEntryClassList(preEntryClz)
                 .observe(this, new Observer<List<EntryClassInfo>>() {
 
                 @Override
@@ -84,18 +92,6 @@ public class AutoEntryListFragment extends ListFragment {
         EntryClassInfo entryClassInfo = entryClassInfoList.get(position);
         JLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getPresentClass().getCanonicalName()));
 
-        // activity则startActivity，否则找该类的入口点击方法
-        if (isChild(entryClassInfo.getPresentClass(), Activity.class) || isChild(entryClassInfo.getPresentClass(), FragmentActivity.class)) {
-            startActivity(new Intent(getActivity(), entryClassInfo.getPresentClass()));
-        }else {
-            AegHelper.invokeEntryMethod(entryClassInfo.getPresentClass());
-        }
-    }
-
-    private boolean isChild(Class child, Class parent){
-        return child != null
-                && parent != null
-                && child.getSuperclass() != null
-                && (child.getSuperclass().equals(parent) || isChild(child.getSuperclass(), parent));
+        uiAction.onItemClick(entryClassInfo, getActivity(), getFragmentManager());
     }
 }

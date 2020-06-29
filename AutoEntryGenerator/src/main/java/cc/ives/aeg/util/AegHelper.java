@@ -46,7 +46,7 @@ public class AegHelper {
     public static void invokeEntryMethod(Class entryClass){
         Method entryMethod = findEntryMethod(entryClass);
         if (entryMethod == null){
-            JLog.w("AegHelper", "invokeEntryMethod() you have no declared any entry method with annotation EntryOnClick");
+            JLog.w("AegHelper", "invokeEntryMethod() you may to declare any entry method with annotation EntryOnClick");
             return;
         }
         entryMethod.setAccessible(true);
@@ -102,7 +102,28 @@ public class AegHelper {
     public static List<EntryClassInfo> getEntryClassListSync(){
 
         List<EntryClassInfo> infoList = null;
-        infoList = AutoEntryGenerator.getEntryClass();
+        infoList = AutoEntryGenerator.getRootClassInfo();
+
+        Collections.sort(infoList, new Comparator<EntryClassInfo>() {
+            @Override
+            public int compare(EntryClassInfo o1, EntryClassInfo o2) {
+                return o1.getIndexTime() - o2.getIndexTime();
+            }
+        });
+
+        return infoList;
+    }
+
+    /**
+     * 返回扫描到的类信息，此方法会阻塞当前线程。
+     * 调用前必须要保证Context已经初始化
+     * @param preEntry
+     * @return
+     */
+    public static List<EntryClassInfo> getEntryClassListSync(final Class preEntry){
+
+        List<EntryClassInfo> infoList = null;
+        infoList = AutoEntryGenerator.getChildClassInfo(preEntry);
 
         Collections.sort(infoList, new Comparator<EntryClassInfo>() {
             @Override

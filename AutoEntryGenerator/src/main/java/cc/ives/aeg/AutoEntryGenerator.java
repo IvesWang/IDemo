@@ -3,12 +3,9 @@ package cc.ives.aeg;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import cc.ives.aeg.annotation.Entry;
 import cc.ives.aeg.annotation.EntryClassInfo;
@@ -23,7 +20,7 @@ import cc.ives.aeg.util.JLog;
 public class AutoEntryGenerator {
     private static final String TAG = "AutoEntryGenerator";
 
-    private static SoftReference<List<EntryClassInfo>> entryClassCache;
+    private static SoftReference<List<EntryClassInfo>> entryClassCache;// 缓存所有的entry类
 
     /**
      * 扫描并缓存下所有的entry注解类。如果有更好的位置，可以考虑提前一点首次调用这个方法初始化缓存
@@ -116,6 +113,11 @@ public class AutoEntryGenerator {
         entryClassCache = new SoftReference<>(infoList);
     }
 
+    /**
+     * 获取缓存的所有entry类
+     * @return
+     */
+    @Deprecated
     public static List<EntryClassInfo> getEntryClass(){
         scanEntryClass();
         return entryClassCache.get();
