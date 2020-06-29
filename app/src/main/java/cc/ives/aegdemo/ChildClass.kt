@@ -9,7 +9,7 @@ import cc.ives.aeg.annotation.EntryOnClick
  * @date 2020/6/28
  * @description 测试子操作类
  */
-@Entry(indexTime = 20062801, desc = "子操作类", preEntry = ParentClass::class)
+@Entry(indexTime = 20062801, desc = "子操作类", preEntry = ParentInterface::class)
 class ChildClass {
 
     @EntryOnClick
