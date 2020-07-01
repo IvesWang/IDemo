@@ -16,7 +16,7 @@ import java.util.Set;
 import cc.ives.aeg.AEGContext;
 import cc.ives.aeg.AutoEntryGenerator;
 import cc.ives.aeg.annotation.EntryClassInfo;
-import cc.ives.aeg.annotation.EntryOnClick;
+import cc.ives.aeg.annotation.EntryItem;
 
 /**
  * @author wangziguang
@@ -39,8 +39,8 @@ public class AegHelper {
         // 返回第一个添加了EntryOnClick注解且没有名称的方法
         Method[] methods = entryClass.getDeclaredMethods();
         for (Method method : methods) {
-            if (method.isAnnotationPresent(EntryOnClick.class)){
-                EntryOnClick annotation = method.getAnnotation(EntryOnClick.class);
+            if (method.isAnnotationPresent(EntryItem.class)){
+                EntryItem annotation = method.getAnnotation(EntryItem.class);
                 if (TextUtils.isEmpty(annotation.itemName())) {
                     return method;
                 }

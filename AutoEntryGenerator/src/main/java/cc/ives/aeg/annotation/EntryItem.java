@@ -15,7 +15,7 @@ import cc.ives.aeg.util.AegHelper;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface EntryOnClick {
+public @interface EntryItem {
 
     // 1.如果不设的话，将会作为没有子页面的list item的点击，有就会当做有子页面的activity。
     // 2.一旦类里有一个方法有itemName，其它的至多只有一个没有itemName。否则无法准确定位相应的方法

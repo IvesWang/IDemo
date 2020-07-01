@@ -3,7 +3,7 @@ package cc.ives.aegdemo;
 import android.widget.Toast;
 
 import cc.ives.aeg.annotation.Entry;
-import cc.ives.aeg.annotation.EntryOnClick;
+import cc.ives.aeg.annotation.EntryItem;
 
 /**
  * @author wangziguang
@@ -13,26 +13,26 @@ import cc.ives.aeg.annotation.EntryOnClick;
 @Entry(indexTime = 20070101, desc = "多个测试方法的类")
 public class MethodClass {
 
-    @EntryOnClick
+    @EntryItem
     public static void test0(){
         Toast.makeText(MyApp.getContext(), "入口的click方法", Toast.LENGTH_SHORT).show();
     }
-    @EntryOnClick
+    @EntryItem
     public static void test00(){
         Toast.makeText(MyApp.getContext(), "入口的click00方法", Toast.LENGTH_SHORT).show();
     }
 
-    @EntryOnClick(itemName = "第一个方法")
+    @EntryItem(itemName = "第一个方法")
     public void test1(){
         Toast.makeText(MyApp.getContext(), "第一个方法", Toast.LENGTH_SHORT).show();
     }
 
-    @EntryOnClick(itemName = "第二个方法")
+    @EntryItem(itemName = "第二个方法")
     public void test2(){
         Toast.makeText(MyApp.getContext(), "第二个方法", Toast.LENGTH_SHORT).show();
     }
 
-    @EntryOnClick(itemName = "第三个方法")
+    @EntryItem(itemName = "第三个方法")
     public void test3(){
         Toast.makeText(MyApp.getContext(), "第三个方法", Toast.LENGTH_SHORT).show();
     }

@@ -2,7 +2,7 @@ package cc.ives.aegdemo
 
 import android.widget.Toast
 import cc.ives.aeg.annotation.Entry
-import cc.ives.aeg.annotation.EntryOnClick
+import cc.ives.aeg.annotation.EntryItem
 
 /**
  * @author wangziguang
@@ -12,7 +12,7 @@ import cc.ives.aeg.annotation.EntryOnClick
 @Entry(indexTime = 20062802, desc = "父操作类")
 class ParentClass {
 
-    @EntryOnClick
+    @EntryItem
     fun parentClick(){
         Toast.makeText(MyApp.getContext(), "点击了父操作类入口", Toast.LENGTH_SHORT).show()
     }

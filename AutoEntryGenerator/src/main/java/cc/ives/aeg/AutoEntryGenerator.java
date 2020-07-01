@@ -15,7 +15,7 @@ import java.util.Set;
 
 import cc.ives.aeg.annotation.Entry;
 import cc.ives.aeg.annotation.EntryClassInfo;
-import cc.ives.aeg.annotation.EntryOnClick;
+import cc.ives.aeg.annotation.EntryItem;
 import cc.ives.aeg.util.AegHelper;
 import cc.ives.aeg.util.JLog;
 
@@ -180,10 +180,10 @@ public class AutoEntryGenerator {
         Method[] methods = currentClz.getDeclaredMethods();
         List<EntryClassInfo> methodClzInfos = new ArrayList<>();
         EntryClassInfo methodClzInfo;
-        EntryOnClick annotation;
+        EntryItem annotation;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AegHelper.FORMAT_INDEX_TIME_PRE, Locale.CHINA);
         for (Method method : methods) {
-            annotation = method.getAnnotation(EntryOnClick.class);
+            annotation = method.getAnnotation(EntryItem.class);
             if (annotation != null && !TextUtils.isEmpty(annotation.itemName())) {
                 methodClzInfo = new EntryClassInfo();
                 methodClzInfo.setCurrentClz(currentClz);
