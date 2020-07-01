@@ -1,14 +1,21 @@
 package cc.ives.aeg;
 
 
+import android.text.TextUtils;
+
 import java.lang.ref.SoftReference;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import cc.ives.aeg.annotation.Entry;
 import cc.ives.aeg.annotation.EntryClassInfo;
+import cc.ives.aeg.annotation.EntryOnClick;
 import cc.ives.aeg.util.AegHelper;
 import cc.ives.aeg.util.JLog;
 
@@ -162,6 +169,34 @@ public class AutoEntryGenerator {
      */
     public static List<EntryClassInfo> getRootClassInfo(){
         return getChildClassInfo(null);
+    }
+
+    /**
+     * 构建出该类下添加CreateListPage注解的方法对应的类信息，用于显示一个新的list页面。
+     * todo 暂时共用类信息及list页面，目前看来还没啥问题，但或许用单独的方法信息标识这种入口合理一点
+     * @return
+     */
+    public static List<EntryClassInfo> buildMethodClass(Class currentClz){
+        Method[] methods = currentClz.getDeclaredMethods();
+        List<EntryClassInfo> methodClzInfos = new ArrayList<>();
+        EntryClassInfo methodClzInfo;
+        EntryOnClick annotation;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AegHelper.FORMAT_INDEX_TIME_PRE, Locale.CHINA);
+        for (Method method : methods) {
+            annotation = method.getAnnotation(EntryOnClick.class);
+            if (annotation != null && !TextUtils.isEmpty(annotation.itemName())) {
+                methodClzInfo = new EntryClassInfo();
+                methodClzInfo.setCurrentClz(currentClz);
+                methodClzInfo.setDesc(annotation.itemName());
+                methodClzInfo.setPreEntryClz(currentClz);
+                // 时间使用当前时间及序号，将CreateListPage方法放在子操作类的后面
+                methodClzInfo.setIndexTime(Integer.valueOf(simpleDateFormat.format(new Date())));
+
+                methodClzInfo.setPresentMethod(method);
+                methodClzInfos.add(methodClzInfo);
+            }
+        }
+        return methodClzInfos;
     }
 
 }

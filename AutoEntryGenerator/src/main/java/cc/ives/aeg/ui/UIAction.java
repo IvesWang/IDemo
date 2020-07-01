@@ -37,19 +37,35 @@ class UIAction {
             activity.startActivity(new Intent(activity, entryClassInfo.getCurrentClz()));
         }else {
 
-            // 调用入口类的点击方法
-            AegHelper.invokeEntryMethod(entryClassInfo.getCurrentClz());
+            // 不是注解方法产生的实例
+            if (!isItemFromMethod(entryClassInfo)) {
 
-            // 有子操作，建立子页面
-            List<EntryClassInfo> childEntryList = AegHelper.getEntryClassListSync(entryClassInfo.getCurrentClz());
-            if (!childEntryList.isEmpty()){
-                if (fragmentManagerX == null){
-                    AegPage.nextNewPage(fragmentManager, entryClassInfo.getCurrentClz());
-                }else {
-                    AegPage.nextNewPage(fragmentManagerX, entryClassInfo.getCurrentClz());
+                // 调用入口类的点击方法
+                AegHelper.invokeEntryMethod(entryClassInfo.getCurrentClz());
+
+                // 有子操作，建立子页面
+                List<EntryClassInfo> childEntryList = AegHelper.getEntryClassListSync(entryClassInfo.getCurrentClz());
+                if (!childEntryList.isEmpty()) {
+                    if (fragmentManagerX == null) {
+                        AegPage.nextNewPage(fragmentManager, entryClassInfo.getCurrentClz());
+                    } else {
+                        AegPage.nextNewPage(fragmentManagerX, entryClassInfo.getCurrentClz());
+                    }
                 }
+            }else {
+                // 注解方法产生的实例，调用其注解方法
+                AegHelper.invokeEntryMethod(entryClassInfo.getCurrentClz(), entryClassInfo.getPresentMethod());
             }
         }
+    }
+
+    /**
+     * 本item的EntryClassInfo是否因方法添加了CreateListPage注解而创建，是则不创建子类面了
+     * @param entryClassInfo
+     * @return
+     */
+    private boolean isItemFromMethod(EntryClassInfo entryClassInfo){
+        return entryClassInfo.getCurrentClz() == entryClassInfo.getPreEntryClz(); // 或者 entryClassInfo.getPresentMethod() != null
     }
 
     /**

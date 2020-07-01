@@ -1,6 +1,7 @@
 package cc.ives.aeg.util;
 
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -25,15 +26,24 @@ import cc.ives.aeg.annotation.EntryOnClick;
 public class AegHelper {
 
     /**
+     * indexTime的格式的一部分
+     */
+    public static final String FORMAT_INDEX_TIME_PRE = "yyMMddHH";
+
+    /**
      * 查找指定类的入口方法
      * @param entryClass
      * @return
      */
     private static Method findEntryMethod(Class entryClass){
+        // 返回第一个添加了EntryOnClick注解且没有名称的方法
         Method[] methods = entryClass.getDeclaredMethods();
         for (Method method : methods) {
             if (method.isAnnotationPresent(EntryOnClick.class)){
-                return method;
+                EntryOnClick annotation = method.getAnnotation(EntryOnClick.class);
+                if (TextUtils.isEmpty(annotation.itemName())) {
+                    return method;
+                }
             }
         }
         return null;
@@ -49,6 +59,10 @@ public class AegHelper {
             JLog.w("AegHelper", "invokeEntryMethod() you may to declare any entry method with annotation EntryOnClick");
             return;
         }
+        invokeEntryMethod(entryClass, entryMethod);
+    }
+
+    public static void invokeEntryMethod(Class entryClass, Method entryMethod){
         entryMethod.setAccessible(true);
 
         if (Modifier.isStatic(entryMethod.getModifiers())){
@@ -123,7 +137,12 @@ public class AegHelper {
     public static List<EntryClassInfo> getEntryClassListSync(final Class preEntry){
 
         List<EntryClassInfo> infoList = null;
-        infoList = AutoEntryGenerator.getChildClassInfo(preEntry);
+        infoList = AutoEntryGenerator.getChildClassInfo(preEntry);// 直接子操作类
+
+        List<EntryClassInfo> methodClzList = AutoEntryGenerator.buildMethodClass(preEntry);// 方法产生的操作类
+        if (!methodClzList.isEmpty()){
+            infoList.addAll(methodClzList);
+        }
 
         Collections.sort(infoList, new Comparator<EntryClassInfo>() {
             @Override
