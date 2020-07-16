@@ -22,17 +22,17 @@ public class MethodClass {
         Toast.makeText(MyApp.getContext(), "入口的click00方法", Toast.LENGTH_SHORT).show();
     }
 
-    @EntryItem(itemName = "第一个方法")
+    @EntryItem(itemName = "写一个调试方法")
     public void test1(){
         Toast.makeText(MyApp.getContext(), "第一个方法", Toast.LENGTH_SHORT).show();
     }
 
-    @EntryItem(itemName = "第二个方法")
+    @EntryItem(itemName = "再写一个调试方法")
     public void test2(){
         Toast.makeText(MyApp.getContext(), "第二个方法", Toast.LENGTH_SHORT).show();
     }
 
-    @EntryItem(itemName = "第三个方法")
+    @EntryItem(itemName = "任意调试代码")
     public void test3(){
         Toast.makeText(MyApp.getContext(), "第三个方法", Toast.LENGTH_SHORT).show();
     }
