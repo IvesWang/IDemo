@@ -81,7 +81,7 @@ public class AegPage {
      */
     public static void openWebView(String url){
         Intent intent = new Intent(AEGContext.getAppContext(), WebViewActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(WebViewActivity.EXTRA_URL, url);
         AEGContext.getAppContext().startActivity(intent);
     }

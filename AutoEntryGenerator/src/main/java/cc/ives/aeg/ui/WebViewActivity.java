@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -39,6 +37,7 @@ public class WebViewActivity extends AppCompatActivity {
                 try{
                     if(!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("HTTP://") && !url.startsWith("HTTPS://")){
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         return true;
                     }
