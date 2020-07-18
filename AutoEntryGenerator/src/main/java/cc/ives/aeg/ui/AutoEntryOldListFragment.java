@@ -30,6 +30,7 @@ import cc.ives.aeg.util.JLog;
  * @date 2020/5/23 0023
  * @description
  */
+@Deprecated
 public class AutoEntryOldListFragment extends ListFragment {
     private static final String TAG = AutoEntryOldListFragment.class.getSimpleName();
 

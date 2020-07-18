@@ -58,29 +58,29 @@ public class AutoEntryListFragment extends ListFragment {
 
         ViewModelProviders.of(this)
                 .get(AutoEntryListVM.class)
-                .getEntryClassList(preEntryClz)
+                .getEntryClassList(preEntryClz)// 空则表示是根节点页面
                 .observe(this, new Observer<List<EntryClassInfo>>() {
 
-                @Override
-                @RequiresApi(api = Build.VERSION_CODES.N)
-                public void onChanged(List<EntryClassInfo> entryClassInfos) {
-                    entryClassInfoList = entryClassInfos;
-                    // todo 到这里getContext有没有可能是空的？会不会执行到这的时候fragemnt才被销毁？
+                    @Override
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    public void onChanged(List<EntryClassInfo> entryClassInfos) {
+                        entryClassInfoList = entryClassInfos;
+                        // todo 到这里getContext有没有可能是空的？会不会执行到这的时候fragemnt才被销毁？
 
-                    List<String> classDescList = entryClassInfos.stream().map(new Function<EntryClassInfo, String>() {
-                        @Override
-                        public String apply(EntryClassInfo entryClassInfo) {
-                            // 优先返回desc，否则返回类名
-                            if (TextUtils.isEmpty(entryClassInfo.getDesc())){
-                                return entryClassInfo.getCurrentClz().getSimpleName();
+                        List<String> classDescList = entryClassInfos.stream().map(new Function<EntryClassInfo, String>() {
+                            @Override
+                            public String apply(EntryClassInfo entryClassInfo) {
+                                // 优先返回desc，否则返回类名
+                                if (TextUtils.isEmpty(entryClassInfo.getDesc())){
+                                    return entryClassInfo.getCurrentClz().getSimpleName();
+                                }
+                                return entryClassInfo.getDesc();
                             }
-                            return entryClassInfo.getDesc();
-                        }
-                    }).collect(Collectors.<String>toList());// !!!<String>
+                        }).collect(Collectors.<String>toList());// !!!<String>
 
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, classDescList);
-                    setListAdapter(arrayAdapter);
-                }
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, classDescList);
+                        setListAdapter(arrayAdapter);
+                    }
         });
 
         return super.onCreateView(inflater, container, savedInstanceState);

@@ -1,10 +1,13 @@
 package cc.ives.aeg.ui;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import cc.ives.aeg.AEGContext;
 
 /**
  * @author wangziguang
@@ -29,7 +32,8 @@ public class AegPage {
         fragmentTransaction.commit();
     }
 
-    /**/
+    /* 旧版FragmentManager的初始化 */
+    @Deprecated
     public static void init(android.app.FragmentManager fragmentManager) {//todo 将来有其它模块需要做初始化的话，可考虑设计到其它类，一块初始化
         android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(
@@ -55,6 +59,7 @@ public class AegPage {
         fragmentTransaction.commit();
     }
 
+    @Deprecated
     public static void nextNewPage(android.app.FragmentManager fragmentManager, Class preEntryClz) {
         android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = new AutoEntryOldListFragment();
@@ -68,5 +73,16 @@ public class AegPage {
         );
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    /**
+     * 打开一个webview
+     * @param url
+     */
+    public static void openWebView(String url){
+        Intent intent = new Intent(AEGContext.getAppContext(), WebViewActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(WebViewActivity.EXTRA_URL, url);
+        AEGContext.getAppContext().startActivity(intent);
     }
 }

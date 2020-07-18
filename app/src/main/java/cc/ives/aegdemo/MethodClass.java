@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import cc.ives.aeg.annotation.Entry;
 import cc.ives.aeg.annotation.EntryItem;
+import cc.ives.aeg.ui.AegPage;
 
 /**
  * @author wangziguang
@@ -35,5 +36,10 @@ public class MethodClass {
     @EntryItem(itemName = "任意调试代码")
     public void test3(){
         Toast.makeText(MyApp.getContext(), "第三个方法", Toast.LENGTH_SHORT).show();
+    }
+
+    @EntryItem(itemName = "打开一个webview")
+    public void openWebView(){
+        AegPage.openWebView("https://www.baidu.com");
     }
 }

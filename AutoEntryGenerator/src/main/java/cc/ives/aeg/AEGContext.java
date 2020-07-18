@@ -18,4 +18,6 @@ public class AEGContext {
     public static void setAppContext(Context context){
         appContext = context;
     }
+
+
 }
