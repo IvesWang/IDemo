@@ -2,9 +2,12 @@ package cc.ives.aeg.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -28,6 +31,26 @@ public class WebViewActivity extends AppCompatActivity {
         this.webView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         this.webView.setBackgroundColor(Color.TRANSPARENT);
 
+        this.webView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //非http请求，支持页面内定义的scheme跳转app
+                try{
+                    if(!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("HTTP://") && !url.startsWith("HTTPS://")){
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        return true;
+                    }
+                }catch (Exception e){
+                    return false;
+                }
+                webView.loadUrl(url);
+                return true;
+            }
+        });
+//        this.webView.setWebChromeClient(new WebChromeClient());
+
         initWebViewSetting();
 
         setContentView(webView);
@@ -50,9 +73,15 @@ public class WebViewActivity extends AppCompatActivity {
 //        缓存
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 //        地理定位
-        settings.setGeolocationEnabled(false);
+        settings.setGeolocationEnabled(true);
 //        本地文件访问
         settings.setAllowFileAccess(true);
+
+        settings.setAllowContentAccess(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            settings.setAllowFileAccessFromFileURLs(true);
+            settings.setAllowUniversalAccessFromFileURLs(true);
+        }
     }
 
     @Override
@@ -63,9 +92,6 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
-        this.webView.setWebViewClient(new WebViewClient());
-        this.webView.setWebChromeClient(new WebChromeClient());
 
         Intent intent = getIntent();
         if (intent != null) {

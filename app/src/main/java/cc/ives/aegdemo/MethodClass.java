@@ -40,6 +40,6 @@ public class MethodClass {
 
     @EntryItem(itemName = "打开一个webview")
     public void openWebView(){
-        AegPage.openWebView("https://www.baidu.com");
+        AegPage.openWebView("https://www.jianshu.com/p/14edcb444c51");
     }
 }
