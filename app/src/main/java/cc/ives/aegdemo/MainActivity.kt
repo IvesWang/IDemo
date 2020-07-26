@@ -1,5 +1,6 @@
 package cc.ives.aegdemo
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import cc.ives.aeg.annotation.Entry
@@ -19,4 +20,5 @@ class MainActivity : AppCompatActivity() {
 
         AegPage.init(supportFragmentManager)
     }
+
 }

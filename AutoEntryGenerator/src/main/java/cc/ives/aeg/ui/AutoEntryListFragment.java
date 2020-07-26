@@ -1,5 +1,6 @@
 package cc.ives.aeg.ui;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,12 @@ public class AutoEntryListFragment extends ListFragment {
         if (argumentBundle != null){
             preEntryClz = (Class) argumentBundle.get(UIAction.KEY_ARGUMENT_PRE_ENTRY_CLZ);
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Objects.requireNonNull(getView()).setBackgroundColor(Color.WHITE);
     }
 
     @Nullable
@@ -93,5 +101,23 @@ public class AutoEntryListFragment extends ListFragment {
         JLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getCurrentClz().getCanonicalName()));
 
         uiAction.onItemClick(entryClassInfo, getActivity(), getFragmentManager());
+    }
+
+    @Override
+    public void onDestroyView() {
+        JLog.i(TAG, "onDestroyView()");
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        JLog.i(TAG, "onDestroy()");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        JLog.i(TAG, "onDetach()");
+        super.onDetach();
     }
 }

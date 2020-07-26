@@ -20,6 +20,7 @@ public class AegPage {
      * AEG初始化，必须调用。
      * 调用结果：实例化fragment --> 初始化appContext的引用 --> 将fragment加入到activity --> 扫描所有注解类并处理后加入到list
      *
+     * 创建第一个页面
      * @param fragmentManager
      */
     public static void init(FragmentManager fragmentManager) {//todo 将来有其它模块需要做初始化的话，可考虑设计到其它类，一块初始化
@@ -44,17 +45,23 @@ public class AegPage {
         fragmentTransaction.commit();
     }
 
+    /**
+     * 创建一个新的子页面
+     * @param fragmentManager
+     * @param preEntryClz
+     */
     public static void nextNewPage(FragmentManager fragmentManager, Class preEntryClz) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         androidx.fragment.app.Fragment fragment = new AutoEntryListFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(UIAction.KEY_ARGUMENT_PRE_ENTRY_CLZ, preEntryClz);
         fragment.setArguments(bundle);
-        fragmentTransaction.replace(
+        fragmentTransaction.add(
                 android.R.id.content,
                 fragment,
                 "MainListFragment2"
         );
+        fragmentTransaction.setReorderingAllowed(true);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
