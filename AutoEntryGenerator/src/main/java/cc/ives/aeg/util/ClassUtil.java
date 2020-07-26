@@ -106,7 +106,7 @@ public class ClassUtil {
 
         parserCtl.await();
 
-        JLog.d(TAG, "Filter " + classNames.size() + " classes by packageName <" + packageName + ">");
+        ESLog.d(TAG, "Filter " + classNames.size() + " classes by packageName <" + packageName + ">");
         return classNames;
     }
 
@@ -163,7 +163,7 @@ public class ClassUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && null != applicationInfo.splitSourceDirs) {
             // add the split apk, normally for InstantRun, and newest version.
             instantRunSourcePaths.addAll(Arrays.asList(applicationInfo.splitSourceDirs));
-            JLog.d(TAG, "Found InstantRun support");
+            ESLog.d(TAG, "Found InstantRun support");
         } else {
             try {
                 // This man is reflection from Google instant run sdk, he will tell me where the dex files go.
@@ -179,11 +179,11 @@ public class ClassUtil {
                             instantRunSourcePaths.add(file.getAbsolutePath());
                         }
                     }
-                    JLog.d(TAG, "Found InstantRun support");
+                    ESLog.d(TAG, "Found InstantRun support");
                 }
 
             } catch (Exception e) {
-                JLog.d(TAG, "InstantRun support error, " + e.getMessage());
+                ESLog.d(TAG, "InstantRun support error, " + e.getMessage());
             }
         }
 
@@ -226,7 +226,7 @@ public class ClassUtil {
 
         }
 
-        JLog.d(TAG, "VM with name " + vmName + (isMultidexCapable ? " has multidex support" : " does not have multidex support"));
+        ESLog.d(TAG, "VM with name " + vmName + (isMultidexCapable ? " has multidex support" : " does not have multidex support"));
         return isMultidexCapable;
     }
 

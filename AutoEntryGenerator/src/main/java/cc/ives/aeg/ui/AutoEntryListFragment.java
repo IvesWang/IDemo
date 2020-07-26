@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import cc.ives.aeg.AEGContext;
 import cc.ives.aeg.annotation.EntryClassInfo;
-import cc.ives.aeg.util.JLog;
+import cc.ives.aeg.util.ESLog;
 
 /**
  * @author wangziguang
@@ -98,26 +98,26 @@ public class AutoEntryListFragment extends ListFragment {
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         EntryClassInfo entryClassInfo = entryClassInfoList.get(position);
-        JLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getCurrentClz().getCanonicalName()));
+        ESLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getCurrentClz().getCanonicalName()));
 
         uiAction.onItemClick(entryClassInfo, getActivity(), getFragmentManager());
     }
 
     @Override
     public void onDestroyView() {
-        JLog.i(TAG, "onDestroyView()");
+        ESLog.i(TAG, "onDestroyView()");
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        JLog.i(TAG, "onDestroy()");
+        ESLog.i(TAG, "onDestroy()");
         super.onDestroy();
     }
 
     @Override
     public void onDetach() {
-        JLog.i(TAG, "onDetach()");
+        ESLog.i(TAG, "onDetach()");
         super.onDetach();
     }
 }

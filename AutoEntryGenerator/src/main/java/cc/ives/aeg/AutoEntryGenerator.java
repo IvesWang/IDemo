@@ -17,7 +17,7 @@ import cc.ives.aeg.annotation.Entry;
 import cc.ives.aeg.annotation.EntryClassInfo;
 import cc.ives.aeg.annotation.EntryItem;
 import cc.ives.aeg.util.AegHelper;
-import cc.ives.aeg.util.JLog;
+import cc.ives.aeg.util.ESLog;
 
 /**
  * @author wangziguang
@@ -35,7 +35,7 @@ public class AutoEntryGenerator {
      */
     private static synchronized void scanEntryClass(){
         if (entryClassCache != null && entryClassCache.get() != null){
-            JLog.i(TAG, "scanEntryClass: cache is valid.");
+            ESLog.i(TAG, "scanEntryClass: cache is valid.");
             return;
         }
 
@@ -97,11 +97,11 @@ public class AutoEntryGenerator {
             while (classIterator.hasNext()){
 
                 entryClassName = classIterator.next();
-                JLog.d(TAG, String.format("##########getEntryClass() className:%s", entryClassName));
+                ESLog.d(TAG, String.format("##########getEntryClass() className:%s", entryClassName));
                 entryClass = Class.forName(entryClassName);
 
                 if(entryClass.isAnnotationPresent(Entry.class)){
-                    JLog.i(TAG, "is view entry activity");
+                    ESLog.i(TAG, "is view entry activity");
                     entryClassInfo = new EntryClassInfo();
                     entryClassInfo.setCurrentClz(entryClass);
 

@@ -56,7 +56,7 @@ public class AegHelper {
     public static void invokeEntryMethod(Class entryClass){
         Method entryMethod = findEntryMethod(entryClass);
         if (entryMethod == null){
-            JLog.w("AegHelper", "invokeEntryMethod() you may to declare any entry method with annotation EntryItem");
+            ESLog.w("AegHelper", "invokeEntryMethod() you may to declare any entry method with annotation EntryItem");
             return;
         }
         invokeEntryMethod(entryClass, entryMethod);

@@ -8,8 +8,8 @@ import android.util.Log;
  * Created by 王子 on 2016/6/18.
  */
 
-public class JLog {
-    private static final String TAG = JLog.class.getSimpleName();
+public class ESLog {
+    private static final String TAG = ESLog.class.getSimpleName();
     /**
      * Priority constant for the println method; use Log.v.
      */
@@ -98,12 +98,12 @@ public class JLog {
     }
     public static void e(String tag, Exception e) {
         if (null != e) {
-            JLog.e(tag, e.getClass().getCanonicalName() + " follow stack is:");
+            ESLog.e(tag, e.getClass().getCanonicalName() + " follow stack is:");
             StackTraceElement[] eles = e.getStackTrace();
             if (null != eles) {
                 for (StackTraceElement stackTraceElement : eles) {
 
-                    JLog.e(tag, stackTraceElement.toString());
+                    ESLog.e(tag, stackTraceElement.toString());
 
                 }
             }
