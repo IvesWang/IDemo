@@ -5,18 +5,18 @@
 在根目录的build.gralde文件添加以下代码：
 ```
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 
 添加以下依赖：
 ```
 dependencies {
-	        implementation 'com.github.IvesWang:IDemo:0.1-alpha3'
-	}
+	implementation 'com.github.IvesWang:IDemo:0.1-alpha3'
+}
 ```
 [![](https://jitpack.io/v/IvesWang/IDemo.svg)](https://jitpack.io/#IvesWang/IDemo)
 
@@ -42,7 +42,7 @@ public class MethodClass {
     @EntryItem(itemName = "打开一个webview")
     public void openWebView(){
         IDemoPage.openWebView("https://www.jianshu.com/p/14edcb444c51");
-    }
+}
 ```
 
 **注解说明：**</br>
