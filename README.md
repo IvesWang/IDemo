@@ -53,3 +53,5 @@ preEntry 上一级点击事件的类class对象，表示当前类的事件列表
 itemName 点击事件列表中该item显示的名称
 
 上两张效果图：
+![image](https://github.com/IvesWang/IDemo/blob/master/shotsnap01.png)
+![image](https://github.com/IvesWang/IDemo/blob/master/shotsnap02.png)
