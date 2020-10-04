@@ -56,7 +56,7 @@ public class IDemoHelper {
     public static void invokeEntryMethod(Class entryClass){
         Method entryMethod = findEntryMethod(entryClass);
         if (entryMethod == null){
-            IDLog.w("AegHelper", "invokeEntryMethod() you may to declare any entry method with annotation EntryItem");
+            IDLog.w("IDemoHelper", "invokeEntryMethod() you may to declare any entry method with annotation EntryItem");
             return;
         }
         invokeEntryMethod(entryClass, entryMethod);

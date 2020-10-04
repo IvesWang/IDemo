@@ -17,7 +17,7 @@ import cc.ives.idemo.IDemoContext;
 public class IDemoPage {
 
     /**
-     * AEG初始化，必须调用。
+     * IDemo初始化，必须调用。
      * 调用结果：实例化fragment --> 初始化appContext的引用 --> 将fragment加入到activity --> 扫描所有注解类并处理后加入到list
      *
      * 创建第一个页面
