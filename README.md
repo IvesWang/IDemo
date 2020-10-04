@@ -15,9 +15,10 @@ allprojects {
 添加以下依赖：
 ```
 dependencies {
-	        implementation 'com.github.IvesWang:IDemo:0.1-alpha'
+	        implementation 'com.github.IvesWang:IDemo:0.1-alpha3'
 	}
 ```
+[![](https://jitpack.io/v/IvesWang/IDemo.svg)](https://jitpack.io/#IvesWang/IDemo)
 
 ###### 2. 引入注解
 注解举例：</br>
