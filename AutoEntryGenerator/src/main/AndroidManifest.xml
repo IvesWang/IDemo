@@ -1,7 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cc.ives.aeg" >
-
-    <application>
-        <activity android:name=".ui.WebViewActivity" />
-    </application>
-</manifest>

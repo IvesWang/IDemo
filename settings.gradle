@@ -1,2 +1,2 @@
-include ':app', ':AutoEntryGenerator', ':thirdpart'
-rootProject.name='AEGDemo'
+include ':app', ':IDemoGenerator', ':thirdpart'
+rootProject.name='IDemo'
