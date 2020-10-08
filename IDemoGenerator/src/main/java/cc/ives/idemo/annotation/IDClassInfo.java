@@ -6,14 +6,14 @@ import java.lang.reflect.Method;
  * @author wangziguang
  * @date 2020/5/23 0023
  * @description 入口类信息
- * 有三种形态：1 activity 2 有presentMethod，因此而构建出的本实例 3 只是一个普通类，但持有空名称的EntryOnClick方法，这种不会单独构建一个实例出来，会在点击时再处理，找出相应的方法
+ * 有三种形态：1 activity 2 有presentMethod，因此而构建出的本实例 3 只是一个普通类，但持有空名称的IDAction方法，这种不会单独构建一个实例出来，会在点击时再处理，找出相应的方法
  */
-public class EntryClassInfo {
+public class IDClassInfo {
     private int indexTime;
     private String desc;
     private Class preEntryClz;
     private Class currentClz;// 当前被注解的类
-    private Method presentMethod;// 添加了EntryOnClick注解则会创建本实例
+    private Method presentMethod;// 添加了IDAction注解则会创建本实例
 
     public int getIndexTime() {
         return indexTime;

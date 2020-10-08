@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import cc.ives.idemo.annotation.Entry;
-import cc.ives.idemo.annotation.EntryClassInfo;
-import cc.ives.idemo.annotation.EntryItem;
+import cc.ives.idemo.annotation.IDModule;
+import cc.ives.idemo.annotation.IDClassInfo;
+import cc.ives.idemo.annotation.IDAction;
 import cc.ives.idemo.util.IDemoHelper;
 import cc.ives.idemo.util.IDLog;
 
@@ -25,21 +25,21 @@ import cc.ives.idemo.util.IDLog;
  * @description 入口信息自动生成器
  */
 public class IDemoGenerator {
-    private static final String TAG = "AutoEntryGenerator";
+    private static final String TAG = IDemoGenerator.class.getSimpleName();
 
-    private static SoftReference<List<EntryClassInfo>> entryClassCache;// 缓存所有的entry类
+    private static SoftReference<List<IDClassInfo>> moduleClassCache;// 缓存所有的module类
 
     /**
      * 扫描并缓存下所有的entry注解类。如果有更好的位置，可以考虑提前一点首次调用这个方法初始化缓存
      * @return
      */
-    private static synchronized void scanEntryClass(){
-        if (entryClassCache != null && entryClassCache.get() != null){
-            IDLog.i(TAG, "scanEntryClass: cache is valid.");
+    private static synchronized void scanModuleClass(){
+        if (moduleClassCache != null && moduleClassCache.get() != null){
+            IDLog.i(TAG, "scanModuleClass: cache is valid.");
             return;
         }
 
-        List<EntryClassInfo> infoList = new ArrayList<>();
+        List<IDClassInfo> infoList = new ArrayList<>();
 
 //        // 获取所有activity
 //        ActivityInfo[] activityInfos;
@@ -92,23 +92,23 @@ public class IDemoGenerator {
         Iterator<String> classIterator = allClass.iterator();
         String entryClassName;
         Class entryClass;
-        EntryClassInfo entryClassInfo;
+        IDClassInfo entryClassInfo;
         try {
             while (classIterator.hasNext()){
 
                 entryClassName = classIterator.next();
-                IDLog.d(TAG, String.format("##########getEntryClass() className:%s", entryClassName));
+                IDLog.d(TAG, String.format("##########getModuleClass() className:%s", entryClassName));
                 entryClass = Class.forName(entryClassName);
 
-                if(entryClass.isAnnotationPresent(Entry.class)){
+                if(entryClass.isAnnotationPresent(IDModule.class)){
                     IDLog.i(TAG, "is view entry activity");
-                    entryClassInfo = new EntryClassInfo();
+                    entryClassInfo = new IDClassInfo();
                     entryClassInfo.setCurrentClz(entryClass);
 
-                    Entry entryAnnotation = (Entry) entryClass.getAnnotation(Entry.class);
+                    IDModule entryAnnotation = (IDModule) entryClass.getAnnotation(IDModule.class);
                     entryClassInfo.setDesc(entryAnnotation.desc());
                     entryClassInfo.setIndexTime(checkIndexTimeFormat(entryAnnotation.indexTime()));
-                    entryClassInfo.setPreEntryClz(entryAnnotation.preEntry());
+                    entryClassInfo.setPreEntryClz(entryAnnotation.preModule());
 
                     infoList.add(entryClassInfo);
                 }
@@ -117,7 +117,7 @@ public class IDemoGenerator {
             e.printStackTrace();
         }
 
-        entryClassCache = new SoftReference<>(infoList);
+        moduleClassCache = new SoftReference<>(infoList);
     }
 
     /**
@@ -125,9 +125,9 @@ public class IDemoGenerator {
      * @return
      */
     @Deprecated
-    public static List<EntryClassInfo> getEntryClass(){
-        scanEntryClass();
-        return entryClassCache.get();
+    public static List<IDClassInfo> getModuleClass(){
+        scanModuleClass();
+        return moduleClassCache.get();
     }
 
     // 检查indexTime的格式
@@ -141,22 +141,22 @@ public class IDemoGenerator {
 
     /**
      * 获取所有二级类信息
-     * @param preEntry 当为null时返回所有的0级类
+     * @param preModule 当为null时返回所有的0级类
      * @return
      */
-    public static List<EntryClassInfo> getChildClassInfo(final Class preEntry){
-        scanEntryClass();
-        List<EntryClassInfo> allEntryClass = entryClassCache.get();
+    public static List<IDClassInfo> getChildClassInfo(final Class preModule){
+        scanModuleClass();
+        List<IDClassInfo> allEntryClass = moduleClassCache.get();
 
-        List<EntryClassInfo> children = new ArrayList<>();
-        Iterator<EntryClassInfo> iterator = allEntryClass.iterator();
-        EntryClassInfo itemEntryClz;
+        List<IDClassInfo> children = new ArrayList<>();
+        Iterator<IDClassInfo> iterator = allEntryClass.iterator();
+        IDClassInfo itemEntryClz;
         while (iterator.hasNext()){
             itemEntryClz = iterator.next();
             // 0级类
-            if (preEntry == null && itemEntryClz.getPreEntryClz() == Object.class){//todo kotlin的class和java的class是否相等
+            if (preModule == null && itemEntryClz.getPreEntryClz() == Object.class){//todo kotlin的class和java的class是否相等
                 children.add(itemEntryClz);
-            }else if (preEntry != null && preEntry.equals(itemEntryClz.getPreEntryClz())){// 二级类
+            }else if (preModule != null && preModule.equals(itemEntryClz.getPreEntryClz())){// 二级类
                 children.add(itemEntryClz);
             }
         }
@@ -167,7 +167,7 @@ public class IDemoGenerator {
      * 返回所有的0级类
      * @return
      */
-    public static List<EntryClassInfo> getRootClassInfo(){
+    public static List<IDClassInfo> getRootClassInfo(){
         return getChildClassInfo(null);
     }
 
@@ -176,16 +176,16 @@ public class IDemoGenerator {
      * todo 暂时共用类信息及list页面，目前看来还没啥问题，但或许用单独的方法信息标识这种入口合理一点
      * @return
      */
-    public static List<EntryClassInfo> buildMethodClass(Class currentClz){
+    public static List<IDClassInfo> buildMethodClass(Class currentClz){
         Method[] methods = currentClz.getDeclaredMethods();
-        List<EntryClassInfo> methodClzInfos = new ArrayList<>();
-        EntryClassInfo methodClzInfo;
-        EntryItem annotation;
+        List<IDClassInfo> methodClzInfos = new ArrayList<>();
+        IDClassInfo methodClzInfo;
+        IDAction annotation;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(IDemoHelper.FORMAT_INDEX_TIME_PRE, Locale.CHINA);
         for (Method method : methods) {
-            annotation = method.getAnnotation(EntryItem.class);
+            annotation = method.getAnnotation(IDAction.class);
             if (annotation != null && !TextUtils.isEmpty(annotation.itemName())) {
-                methodClzInfo = new EntryClassInfo();
+                methodClzInfo = new IDClassInfo();
                 methodClzInfo.setCurrentClz(currentClz);
                 methodClzInfo.setDesc(annotation.itemName());
                 methodClzInfo.setPreEntryClz(currentClz);

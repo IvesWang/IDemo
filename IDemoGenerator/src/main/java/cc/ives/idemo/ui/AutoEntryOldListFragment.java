@@ -23,7 +23,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import cc.ives.idemo.IDemoContext;
-import cc.ives.idemo.annotation.EntryClassInfo;
+import cc.ives.idemo.annotation.IDClassInfo;
 import cc.ives.idemo.util.IDemoHelper;
 import cc.ives.idemo.util.IDLog;
 
@@ -37,7 +37,7 @@ public class AutoEntryOldListFragment extends ListFragment {
     private static final String TAG = AutoEntryOldListFragment.class.getSimpleName();
 
     private Class preEntryClz;// 本fragment展示的前一个操作入口，首个fragment则为null
-    private List<EntryClassInfo> entryClassInfoList;
+    private List<IDClassInfo> entryClassInfoList;
 
     private UIAction uiAction;
 
@@ -52,7 +52,7 @@ public class AutoEntryOldListFragment extends ListFragment {
     private void readPreEntryInfo(){
         Bundle argumentBundle = getArguments();
         if (argumentBundle != null){
-            preEntryClz = (Class) argumentBundle.get(UIAction.KEY_ARGUMENT_PRE_ENTRY_CLZ);
+            preEntryClz = (Class) argumentBundle.get(UIAction.KEY_ARGUMENT_PRE_MODULE_CLZ);
         }
     }
 
@@ -71,11 +71,11 @@ public class AutoEntryOldListFragment extends ListFragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void run() {
-                entryClassInfoList = preEntryClz == null ? IDemoHelper.getEntryClassListSync() : IDemoHelper.getEntryClassListSync(preEntryClz);
+                entryClassInfoList = preEntryClz == null ? IDemoHelper.getModuleClassListSync() : IDemoHelper.getModuleClassListSync(preEntryClz);
 
-                List<String> classDescList = entryClassInfoList.stream().map(new Function<EntryClassInfo, String>() {
+                List<String> classDescList = entryClassInfoList.stream().map(new Function<IDClassInfo, String>() {
                     @Override
-                    public String apply(EntryClassInfo entryClassInfo) {
+                    public String apply(IDClassInfo entryClassInfo) {
                         // 优先返回desc，否则返回类名
                         if (TextUtils.isEmpty(entryClassInfo.getDesc())){
                             return entryClassInfo.getCurrentClz().getSimpleName();
@@ -101,7 +101,7 @@ public class AutoEntryOldListFragment extends ListFragment {
     @Override
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        EntryClassInfo entryClassInfo = entryClassInfoList.get(position);
+        IDClassInfo entryClassInfo = entryClassInfoList.get(position);
         IDLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getCurrentClz().getCanonicalName()));
 
         uiAction.onItemClick(entryClassInfo, getActivity(), getFragmentManager());

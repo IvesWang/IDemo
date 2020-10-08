@@ -48,13 +48,13 @@ public class IDemoPage {
     /**
      * 创建一个新的子页面
      * @param fragmentManager
-     * @param preEntryClz
+     * @param preModuleClz
      */
-    public static void nextNewPage(FragmentManager fragmentManager, Class preEntryClz) {
+    public static void nextNewPage(FragmentManager fragmentManager, Class preModuleClz) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         androidx.fragment.app.Fragment fragment = new AutoEntryListFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(UIAction.KEY_ARGUMENT_PRE_ENTRY_CLZ, preEntryClz);
+        bundle.putSerializable(UIAction.KEY_ARGUMENT_PRE_MODULE_CLZ, preModuleClz);
         fragment.setArguments(bundle);
         fragmentTransaction.add(
                 android.R.id.content,
@@ -67,11 +67,11 @@ public class IDemoPage {
     }
 
     @Deprecated
-    public static void nextNewPage(android.app.FragmentManager fragmentManager, Class preEntryClz) {
+    public static void nextNewPage(android.app.FragmentManager fragmentManager, Class preModuleClz) {
         android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = new AutoEntryOldListFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(UIAction.KEY_ARGUMENT_PRE_ENTRY_CLZ, preEntryClz);
+        bundle.putSerializable(UIAction.KEY_ARGUMENT_PRE_MODULE_CLZ, preModuleClz);
         fragment.setArguments(bundle);
         fragmentTransaction.replace(
                 android.R.id.content,

@@ -15,8 +15,8 @@ import java.util.Set;
 
 import cc.ives.idemo.IDemoContext;
 import cc.ives.idemo.IDemoGenerator;
-import cc.ives.idemo.annotation.EntryClassInfo;
-import cc.ives.idemo.annotation.EntryItem;
+import cc.ives.idemo.annotation.IDClassInfo;
+import cc.ives.idemo.annotation.IDAction;
 
 /**
  * @author wangziguang
@@ -32,15 +32,15 @@ public class IDemoHelper {
 
     /**
      * 查找指定类的入口方法
-     * @param entryClass
+     * @param moduleClass
      * @return
      */
-    private static Method findEntryMethod(Class entryClass){
+    private static Method findActionMethod(Class moduleClass){
         // 返回第一个添加了EntryOnClick注解且没有名称的方法
-        Method[] methods = entryClass.getDeclaredMethods();
+        Method[] methods = moduleClass.getDeclaredMethods();
         for (Method method : methods) {
-            if (method.isAnnotationPresent(EntryItem.class)){
-                EntryItem annotation = method.getAnnotation(EntryItem.class);
+            if (method.isAnnotationPresent(IDAction.class)){
+                IDAction annotation = method.getAnnotation(IDAction.class);
                 if (TextUtils.isEmpty(annotation.itemName())) {
                     return method;
                 }
@@ -51,24 +51,24 @@ public class IDemoHelper {
 
     /**
      * 实例化或者静态调用该类的入口方法
-     * @param entryClass
+     * @param moduleClass
      */
-    public static void invokeEntryMethod(Class entryClass){
-        Method entryMethod = findEntryMethod(entryClass);
+    public static void invokeModuleMethod(Class moduleClass){
+        Method entryMethod = findActionMethod(moduleClass);
         if (entryMethod == null){
-            IDLog.w("IDemoHelper", "invokeEntryMethod() you may to declare any entry method with annotation EntryItem");
+            IDLog.w("IDemoHelper", "invokeModuleMethod() you may to declare any entry method with annotation IDAction");
             return;
         }
-        invokeEntryMethod(entryClass, entryMethod);
+        invokeModuleMethod(moduleClass, entryMethod);
     }
 
-    public static void invokeEntryMethod(Class entryClass, Method entryMethod){
-        entryMethod.setAccessible(true);
+    public static void invokeModuleMethod(Class moduleClass, Method actionMethod){
+        actionMethod.setAccessible(true);
 
-        if (Modifier.isStatic(entryMethod.getModifiers())){
+        if (Modifier.isStatic(actionMethod.getModifiers())){
 
             try {
-                entryMethod.invoke(null);// 必须是无参方法
+                actionMethod.invoke(null);// 必须是无参方法
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
@@ -78,8 +78,8 @@ public class IDemoHelper {
         }else {
 
             try {
-                Object obj = entryClass.newInstance();// 必须有非私有的无参构造器 todo 这样对类可见性有要求，是否可以改成forName的方式
-                entryMethod.invoke(obj);// 必须是无参方法
+                Object obj = moduleClass.newInstance();// 必须有非私有的无参构造器 todo 这样对类可见性有要求，是否可以改成forName的方式
+                actionMethod.invoke(obj);// 必须是无参方法
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InstantiationException e) {
@@ -113,14 +113,14 @@ public class IDemoHelper {
      * 调用前必须要保证Context已经初始化
      * @return
      */
-    public static List<EntryClassInfo> getEntryClassListSync(){
+    public static List<IDClassInfo> getModuleClassListSync(){
 
-        List<EntryClassInfo> infoList = null;
+        List<IDClassInfo> infoList = null;
         infoList = IDemoGenerator.getRootClassInfo();
 
-        Collections.sort(infoList, new Comparator<EntryClassInfo>() {
+        Collections.sort(infoList, new Comparator<IDClassInfo>() {
             @Override
-            public int compare(EntryClassInfo o1, EntryClassInfo o2) {
+            public int compare(IDClassInfo o1, IDClassInfo o2) {
                 return o1.getIndexTime() - o2.getIndexTime();
             }
         });
@@ -131,22 +131,22 @@ public class IDemoHelper {
     /**
      * 返回扫描到的类信息，此方法会阻塞当前线程。
      * 调用前必须要保证Context已经初始化
-     * @param preEntry
+     * @param preModule
      * @return
      */
-    public static List<EntryClassInfo> getEntryClassListSync(final Class preEntry){
+    public static List<IDClassInfo> getModuleClassListSync(final Class preModule){
 
-        List<EntryClassInfo> infoList = null;
-        infoList = IDemoGenerator.getChildClassInfo(preEntry);// 直接子操作类
+        List<IDClassInfo> infoList = null;
+        infoList = IDemoGenerator.getChildClassInfo(preModule);// 直接子操作类
 
-        List<EntryClassInfo> methodClzList = IDemoGenerator.buildMethodClass(preEntry);// 方法产生的操作类
+        List<IDClassInfo> methodClzList = IDemoGenerator.buildMethodClass(preModule);// 方法产生的操作类
         if (!methodClzList.isEmpty()){
             infoList.addAll(methodClzList);
         }
 
-        Collections.sort(infoList, new Comparator<EntryClassInfo>() {
+        Collections.sort(infoList, new Comparator<IDClassInfo>() {
             @Override
-            public int compare(EntryClassInfo o1, EntryClassInfo o2) {
+            public int compare(IDClassInfo o1, IDClassInfo o2) {
                 return o1.getIndexTime() - o2.getIndexTime();
             }
         });
