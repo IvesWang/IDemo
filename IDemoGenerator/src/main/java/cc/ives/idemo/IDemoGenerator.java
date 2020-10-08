@@ -134,7 +134,7 @@ public class IDemoGenerator {
     private static int checkIndexTimeFormat(int indexTime){
         // todo 可考虑以后在编译器进行校验
         if(String.valueOf(indexTime).length() != 8){
-            throw new IllegalArgumentException("Invalid format of IndexTime in annotation Entry :" + indexTime);
+            throw new IllegalArgumentException("Invalid format of IndexTime in annotation IDModule :" + indexTime);
         }
         return indexTime;
     }
@@ -172,7 +172,7 @@ public class IDemoGenerator {
     }
 
     /**
-     * 构建出该类下添加CreateListPage注解的方法对应的类信息，用于显示一个新的list页面。
+     * 构建出该类下添加IDAction注解的方法对应的类信息，用于显示一个新的list页面。
      * todo 暂时共用类信息及list页面，目前看来还没啥问题，但或许用单独的方法信息标识这种入口合理一点
      * @return
      */
