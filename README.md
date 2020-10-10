@@ -35,13 +35,13 @@ public class MethodClass {
 在普通类里添加想调试的代码片段：
 ```
 @IDAction(itemName = "任意调试代码")
-    public void test3(){
-        Toast.makeText(MyApp.getContext(), "第三个方法", Toast.LENGTH_SHORT).show();
-    }
+public void test3(){
+    Toast.makeText(MyApp.getContext(), "第三个方法", Toast.LENGTH_SHORT).show();
+}
 
-    @IDAction(itemName = "打开一个webview")
-    public void openWebView(){
-        IDemoPage.openWebView("https://www.jianshu.com/p/14edcb444c51");
+@IDAction(itemName = "打开一个webview")
+public void openWebView(){
+    IDemoPage.openWebView("https://www.jianshu.com/p/14edcb444c51");
 }
 ```
 
