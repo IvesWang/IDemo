@@ -15,7 +15,7 @@ allprojects {
 添加以下依赖：
 ```
 dependencies {
-	implementation 'com.github.IvesWang:IDemo:0.1-alpha3'
+	implementation 'com.github.IvesWang:IDemo:0.2-alpha'
 }
 ```
 [![](https://jitpack.io/v/IvesWang/IDemo.svg)](https://jitpack.io/#IvesWang/IDemo)
@@ -24,33 +24,33 @@ dependencies {
 注解举例：</br>
 
 ```
-@Entry(indexTime = 20070101, desc = "多个测试方法的类")
+@IDModule(indexTime = 20070101, desc = "多个测试方法的类")
 public class MethodClass {
 .....
 }
 ```
-使用 **@Entry**给类添加注解，如果该类是activity，点击则会启动该activity。如果是普通类，会找类里的 **@EntryItem**注解方法作为下一级页面的点击事件。
+使用 **@IDModule**给类添加注解，如果该类是activity，点击则会启动该activity。如果是普通类，会找类里的 **@IDAction**注解方法作为下一级页面的点击事件。
 
 
 在普通类里添加想调试的代码片段：
 ```
-@EntryItem(itemName = "任意调试代码")
+@IDAction(itemName = "任意调试代码")
     public void test3(){
         Toast.makeText(MyApp.getContext(), "第三个方法", Toast.LENGTH_SHORT).show();
     }
 
-    @EntryItem(itemName = "打开一个webview")
+    @IDAction(itemName = "打开一个webview")
     public void openWebView(){
         IDemoPage.openWebView("https://www.jianshu.com/p/14edcb444c51");
 }
 ```
 
 **注解说明：**</br>
-> @Entry</br>
+> @IDModule</br>
 indexTime 用于对列表的item进行排序的索引，一般按照编码当时的时间来填比较方便。格式为yyMMdd + 两位数字，后面两个数字表示该类为该天添加的第几个类，这样会比较便于记忆，也不会造成太多的编号。</br>
 desc 用于item显示的名称</br>
-preEntry 上一级点击事件的类class对象，表示当前类的事件列表会作为preEntry类的子列表。不填则当前类会作为第一个列表里的item。</br>
-@EntryItem 作为@Entry入口事件后的事件列表项</br>
+preModule 上一级点击事件的类class对象，表示当前类的事件列表会作为preModule类的子列表。不填则当前类会作为第一个列表里的item。</br>
+@IDAction 作为@IDModule入口事件后的事件列表项</br>
 itemName 点击事件列表中该item显示的名称
 
 上两张效果图：
