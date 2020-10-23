@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -15,8 +16,8 @@ import java.util.Set;
 
 import cc.ives.idemo.IDemoContext;
 import cc.ives.idemo.IDemoGenerator;
-import cc.ives.idemo.annotation.IDClassInfo;
 import cc.ives.idemo.annotation.IDAction;
+import cc.ives.idemo.annotation.IDClassInfo;
 
 /**
  * @author wangziguang
@@ -78,13 +79,27 @@ public class IDemoHelper {
         }else {
 
             try {
-                Object obj = moduleClass.newInstance();// 必须有非私有的无参构造器 todo 这样对类可见性有要求，是否可以改成forName的方式
+//                Object obj = moduleClass.newInstance();// 必须有非私有的无参构造器
+                Constructor defaultConstructor = moduleClass.getDeclaredConstructor();//TODO 必须有无参构造器
+                defaultConstructor.setAccessible(true);
+                Object obj = defaultConstructor.newInstance();
                 actionMethod.invoke(obj);// 必须是无参方法
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                // 参数列表错误，打印一下参数类型
+                Class[] types = actionMethod.getParameterTypes();
+                StringBuilder sb = new StringBuilder();
+                for (Class type : types) {
+                    sb.append("Type:").append(type.getCanonicalName()).append("#");
+                }
+                IDLog.e("IDemoHelper", "argument " + sb.toString());
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
         }
