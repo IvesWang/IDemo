@@ -109,9 +109,9 @@ public class IDemoHelper {
      * 获取该包名下的所有类
      * @return
      */
-    public static Set<String> getAllClassUnderPackage(){
+    public static Set<String> getAllClassUnderPackage(String... packageNames){
         try {
-            return ClassUtil.getFileNameByPackageName(IDemoContext.getAppContext(), IDemoContext.getAppContext().getPackageName());
+            return ClassUtil.getFileNameByPackageName(IDemoContext.getAppContext(), packageNames);
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -128,10 +128,10 @@ public class IDemoHelper {
      * 调用前必须要保证Context已经初始化
      * @return
      */
-    public static List<IDClassInfo> getModuleClassListSync(){
+    public static List<IDClassInfo> getModuleClassListSync(String... packageNames){
 
         List<IDClassInfo> infoList = null;
-        infoList = IDemoGenerator.getRootClassInfo();
+        infoList = IDemoGenerator.getRootClassInfo(packageNames);
 
         Collections.sort(infoList, new Comparator<IDClassInfo>() {
             @Override
@@ -149,10 +149,10 @@ public class IDemoHelper {
      * @param preModule
      * @return
      */
-    public static List<IDClassInfo> getModuleClassListSync(final Class preModule){
+    public static List<IDClassInfo> getModuleClassListSync(final Class preModule, String... packageNames){
 
         List<IDClassInfo> infoList = null;
-        infoList = IDemoGenerator.getChildClassInfo(preModule);// 直接子操作类
+        infoList = IDemoGenerator.getChildClassInfo(preModule, packageNames);// 直接子操作类
 
         List<IDClassInfo> methodClzList = IDemoGenerator.buildMethodClass(preModule);// 方法产生的操作类
         if (!methodClzList.isEmpty()){

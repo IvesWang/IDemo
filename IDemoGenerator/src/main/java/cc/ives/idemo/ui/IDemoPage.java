@@ -22,24 +22,36 @@ public class IDemoPage {
      *
      * 创建第一个页面
      * @param fragmentManager
+     * @param packageNames 仅扫描指定包名下的类。可输入多个包名。
      */
-    public static void init(FragmentManager fragmentManager) {//todo 将来有其它模块需要做初始化的话，可考虑设计到其它类，一块初始化
+    public static void init(FragmentManager fragmentManager, String... packageNames) {//todo 将来有其它模块需要做初始化的话，可考虑设计到其它类，一块初始化
+        if (packageNames == null || packageNames.length == 0){
+            throw new IllegalArgumentException("You should pass at least one package name for performance!");
+        }
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(
                 android.R.id.content,
-                new AutoEntryListFragment(),
+                new AutoEntryListFragment(packageNames),
                 "MainListFragment"
         );
         fragmentTransaction.commit();
     }
 
-    /* 旧版FragmentManager的初始化 */
+    /**
+     *  旧版FragmentManager的初始化
+     *  @param packageNames 仅扫描指定包名下的类。可输入多个包名
+     *  */
     @Deprecated
-    public static void init(android.app.FragmentManager fragmentManager) {//todo 将来有其它模块需要做初始化的话，可考虑设计到其它类，一块初始化
+    public static void init(android.app.FragmentManager fragmentManager, String... packageNames) {//todo 将来有其它模块需要做初始化的话，可考虑设计到其它类，一块初始化
+        if (packageNames == null || packageNames.length == 0){
+            throw new IllegalArgumentException("You should pass at least one package name for performance!");
+        }
         android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        AutoEntryOldListFragment fragment = new AutoEntryOldListFragment();
+        fragment.setPackageNames(packageNames);
         fragmentTransaction.replace(
                 android.R.id.content,
-                new AutoEntryOldListFragment(),
+                fragment,
                 "MainListFragment"
         );
         fragmentTransaction.commit();

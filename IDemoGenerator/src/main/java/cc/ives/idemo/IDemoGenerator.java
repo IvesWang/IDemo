@@ -33,7 +33,7 @@ public class IDemoGenerator {
      * 扫描并缓存下所有的entry注解类。如果有更好的位置，可以考虑提前一点首次调用这个方法初始化缓存
      * @return
      */
-    private static synchronized void scanModuleClass(){
+    private static synchronized void scanModuleClass(String... packageNames){
         if (moduleClassCache != null && moduleClassCache.get() != null){
             IDLog.i(TAG, "scanModuleClass: cache is valid.");
             return;
@@ -87,7 +87,7 @@ public class IDemoGenerator {
 //        }
 
         // 获取所有类
-        Set<String> allClass = IDemoHelper.getAllClassUnderPackage();
+        Set<String> allClass = IDemoHelper.getAllClassUnderPackage(packageNames);
 
         Iterator<String> classIterator = allClass.iterator();
         String entryClassName;
@@ -125,8 +125,8 @@ public class IDemoGenerator {
      * @return
      */
     @Deprecated
-    public static List<IDClassInfo> getModuleClass(){
-        scanModuleClass();
+    public static List<IDClassInfo> getModuleClass(String... packageNames){
+        scanModuleClass(packageNames);
         return moduleClassCache.get();
     }
 
@@ -144,8 +144,8 @@ public class IDemoGenerator {
      * @param preModule 当为null时返回所有的0级类
      * @return
      */
-    public static List<IDClassInfo> getChildClassInfo(final Class preModule){
-        scanModuleClass();
+    public static List<IDClassInfo> getChildClassInfo(final Class preModule, String... packageNames){
+        scanModuleClass(packageNames);
         List<IDClassInfo> allEntryClass = moduleClassCache.get();
 
         List<IDClassInfo> children = new ArrayList<>();
@@ -167,8 +167,8 @@ public class IDemoGenerator {
      * 返回所有的0级类
      * @return
      */
-    public static List<IDClassInfo> getRootClassInfo(){
-        return getChildClassInfo(null);
+    public static List<IDClassInfo> getRootClassInfo(String... packageNames){
+        return getChildClassInfo(null, packageNames);
     }
 
     /**

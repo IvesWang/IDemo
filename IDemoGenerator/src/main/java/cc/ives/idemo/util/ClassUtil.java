@@ -58,14 +58,15 @@ public class ClassUtil {
      * 通过指定包名，扫描包下面包含的所有的ClassName
      *
      * @param context     U know
-     * @param packageName 包名
+     * @param packageName 包名，仅缓存属于该包名的类。可输入多个不同包名
      * @return 所有class的集合
      */
-    public static Set<String> getFileNameByPackageName(Context context, final String packageName) throws PackageManager.NameNotFoundException, IOException, InterruptedException {
+    public static Set<String> getFileNameByPackageName(Context context, String... packageName) throws PackageManager.NameNotFoundException, IOException, InterruptedException {
         final Set<String> classNames = new HashSet<>();
 
         List<String> paths = getSourcePaths(context);
         final CountDownLatch parserCtl = new CountDownLatch(paths.size());
+        List<String> packageNames = Arrays.asList(packageName);
 
         for (final String path : paths) {
             threadPool.execute(new Runnable() {
@@ -84,7 +85,8 @@ public class ClassUtil {
                         Enumeration<String> dexEntries = dexfile.entries();
                         while (dexEntries.hasMoreElements()) {
                             String className = dexEntries.nextElement();
-                            if (className.startsWith(packageName)) {
+
+                            if (isStartPrefix(className, packageNames)) {
                                 classNames.add(className);
                             }
                         }
@@ -106,8 +108,16 @@ public class ClassUtil {
 
         parserCtl.await();
 
-        IDLog.d(TAG, "Filter " + classNames.size() + " classes by packageName <" + packageName + ">");
         return classNames;
+    }
+
+    private static boolean isStartPrefix(String className, List<String> prefixList){
+        for (String prefix : prefixList) {
+            if (className.startsWith(prefix)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

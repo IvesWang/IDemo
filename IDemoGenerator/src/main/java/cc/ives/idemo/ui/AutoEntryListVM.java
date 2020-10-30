@@ -20,14 +20,15 @@ public class AutoEntryListVM extends ViewModel {
     /**
      * 返回扫描到的类信息
      * 调用前必须要保证Context已经初始化
+     * @param packageNames 仅扫描指定包名下的类。可输入多个包名
      * @return
      */
-    public LiveData<List<IDClassInfo>> getEntryClassList(final Class preModuleClz){
+    public LiveData<List<IDClassInfo>> getEntryClassList(final Class preModuleClz, String... packageNames){
         new Thread(new Runnable() {//todo 创建了线程
             @Override
             public void run() {
 
-                List<IDClassInfo> infoList = preModuleClz == null ? IDemoHelper.getModuleClassListSync() : IDemoHelper.getModuleClassListSync(preModuleClz);
+                List<IDClassInfo> infoList = preModuleClz == null ? IDemoHelper.getModuleClassListSync(packageNames) : IDemoHelper.getModuleClassListSync(preModuleClz, packageNames);
 
                 entryListData.postValue(infoList);
             }

@@ -40,6 +40,14 @@ public class AutoEntryOldListFragment extends ListFragment {
     private List<IDClassInfo> entryClassInfoList;
 
     private UIAction uiAction;
+    private String[] packageNames;
+
+    public AutoEntryOldListFragment() {
+    }
+
+    public void setPackageNames(String[] packageNames) {
+        this.packageNames = packageNames;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +79,7 @@ public class AutoEntryOldListFragment extends ListFragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void run() {
-                entryClassInfoList = preEntryClz == null ? IDemoHelper.getModuleClassListSync() : IDemoHelper.getModuleClassListSync(preEntryClz);
+                entryClassInfoList = preEntryClz == null ? IDemoHelper.getModuleClassListSync(packageNames) : IDemoHelper.getModuleClassListSync(preEntryClz, packageNames);
 
                 List<String> classDescList = entryClassInfoList.stream().map(new Function<IDClassInfo, String>() {
                     @Override

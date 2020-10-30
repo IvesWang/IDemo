@@ -38,6 +38,11 @@ public class AutoEntryListFragment extends ListFragment {
     private List<IDClassInfo> entryClassInfoList;
 
     private UIAction uiAction;
+    private String[] packageNames;
+
+    public AutoEntryListFragment(String... packageNames) {
+        this.packageNames = packageNames;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +71,7 @@ public class AutoEntryListFragment extends ListFragment {
 
         ViewModelProviders.of(this)
                 .get(AutoEntryListVM.class)
-                .getEntryClassList(preEntryClz)// 空则表示是根节点页面
+                .getEntryClassList(preEntryClz, packageNames)// 空则表示是根节点页面
                 .observe(this, new Observer<List<IDClassInfo>>() {
 
                     @Override

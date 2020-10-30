@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        IDemoPage.init(supportFragmentManager)
+        IDemoPage.init(supportFragmentManager, "cc.ives", "com.ives")
     }
 
 }
