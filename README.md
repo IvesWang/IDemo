@@ -54,5 +54,5 @@ preModule 上一级点击事件的类class对象，表示当前类的事件列�
 itemName 点击事件列表中该item显示的名称
 
 上两张效果图：
-![image](https://github.com/IvesWang/IDemo/blob/master/shotsnap01.png)
-![image](https://github.com/IvesWang/IDemo/blob/master/shotsnap02.png)
+![image](https://upload-images.jianshu.io/upload_images/2698088-95992e807ca8efd1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image](https://upload-images.jianshu.io/upload_images/2698088-2d19ada7e5b6a7ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
