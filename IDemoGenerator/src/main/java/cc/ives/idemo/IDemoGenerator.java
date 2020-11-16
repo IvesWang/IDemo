@@ -93,29 +93,29 @@ public class IDemoGenerator {
         String entryClassName;
         Class entryClass;
         IDClassInfo entryClassInfo;
-        try {
             while (classIterator.hasNext()){
 
-                entryClassName = classIterator.next();
-                IDLog.d(TAG, String.format("##########getModuleClass() className:%s", entryClassName));
-                entryClass = Class.forName(entryClassName);
+                try {
+                    entryClassName = classIterator.next();
+                    IDLog.d(TAG, String.format("##########getModuleClass() className:%s", entryClassName));
+                    entryClass = Class.forName(entryClassName);
 
-                if(entryClass.isAnnotationPresent(IDModule.class)){
-                    IDLog.i(TAG, "is view entry activity");
-                    entryClassInfo = new IDClassInfo();
-                    entryClassInfo.setCurrentClz(entryClass);
+                    if(entryClass.isAnnotationPresent(IDModule.class)){
+                        IDLog.i(TAG, "is view entry activity");
+                        entryClassInfo = new IDClassInfo();
+                        entryClassInfo.setCurrentClz(entryClass);
 
-                    IDModule entryAnnotation = (IDModule) entryClass.getAnnotation(IDModule.class);
-                    entryClassInfo.setDesc(entryAnnotation.desc());
-                    entryClassInfo.setIndexTime(checkIndexTimeFormat(entryAnnotation.indexTime()));
-                    entryClassInfo.setPreEntryClz(entryAnnotation.preModule());
+                        IDModule entryAnnotation = (IDModule) entryClass.getAnnotation(IDModule.class);
+                        entryClassInfo.setDesc(entryAnnotation.desc());
+                        entryClassInfo.setIndexTime(checkIndexTimeFormat(entryAnnotation.indexTime()));
+                        entryClassInfo.setPreEntryClz(entryAnnotation.preModule());
 
-                    infoList.add(entryClassInfo);
+                        infoList.add(entryClassInfo);
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
         moduleClassCache = new SoftReference<>(infoList);
     }
