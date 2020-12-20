@@ -1,2 +1,3 @@
+include ':IDemoLib'
 include ':app', ':IDemoGenerator', ':thirdpart'
 rootProject.name='IDemo'
