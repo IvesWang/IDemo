@@ -13,7 +13,7 @@ import cc.ives.idemo.util.IDemoHelper;
  * @description 标记该方法为点击入口类时的执行方法
  * todo 需要加入参数检查，目前要求必须是无参方法，对于非静态方法，要求类必须有非私有的无参构造器。见{@link IDemoHelper#invokeModuleMethod(Class)}
  */
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
 public @interface IDAction {
 

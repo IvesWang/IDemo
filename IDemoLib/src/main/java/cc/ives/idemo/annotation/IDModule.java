@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * 编译期好处：不需要遍历所有activity，可以被动过滤到添加了注解的类，后期可扩展性也更强，不一定非得activity。但编译时间会加长
  * 运行期：好坏除了更编译期反过来外，会增加运行时内存和执行时间（可忽略该时间）。
  */
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
 public @interface IDModule {
     int indexTime();// 当前层级的排序索引，使用时间格式，比如：20052301表示2020年5月23日第1个增加的入口类
