@@ -5,8 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import cc.ives.idemo.util.IDemoHelper;
-
 /**
  * @author wangziguang
  * @date 2020/5/24 0024
