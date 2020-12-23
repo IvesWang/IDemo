@@ -3,7 +3,6 @@ package cc.ives.idemo.samples
 import android.app.Activity
 import android.os.Bundle
 import cc.ives.idemo.annotation.IDModule
-import cc.ives.idemo.ui.IDemoPage
 
 /**
  * @author wangziguang
@@ -15,6 +14,6 @@ class OldMainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        IDemoPage.init(fragmentManager)
+//        IDemoPage.init(fragmentManager)
     }
 }

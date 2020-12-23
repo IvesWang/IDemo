@@ -2,9 +2,8 @@ package cc.ives.idemo.samples;
 
 import android.widget.Toast;
 
-import cc.ives.idemo.annotation.IDModule;
 import cc.ives.idemo.annotation.IDAction;
-import cc.ives.idemo.ui.IDemoPage;
+import cc.ives.idemo.annotation.IDModule;
 
 /**
  * @author wangziguang
@@ -42,6 +41,6 @@ public class MethodClass {
 
     @IDAction(itemName = "打开一个webview")
     public void openWebView(){
-        IDemoPage.openWebView("https://www.jianshu.com/p/14edcb444c51");
+//        IDemoPage.openWebView("https://www.jianshu.com/p/14edcb444c51");
     }
 }

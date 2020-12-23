@@ -1,5 +1,8 @@
 plugins {
     id 'java-library'
+    id 'kotlin'// 支持识别kotlin类
+    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.jvm' // 支持识别kotlin类
 }
 
 java {
@@ -16,6 +19,25 @@ dependencies {
     // javapoet
     implementation 'com.squareup:javapoet:1.13.0'
 
-    implementation 'com.google.auto.service:auto-service:1.0-rc6'
-    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'//（必须要加上这行代码，否则无法注册成功）
+    implementation 'com.google.auto.service:auto-service:1.0-rc7'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc7'//（必须要加上这行代码，否则无法注册成功）
+
+//    // 支持识别kotlin类
+    kapt 'com.google.auto.service:auto-service:1.0-rc7'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+//    implementation 'com.google.auto.service:auto-service:1.0-rc6'
+}
+repositories {
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    mavenCentral()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
