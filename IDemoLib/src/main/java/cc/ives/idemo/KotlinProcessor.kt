@@ -17,7 +17,7 @@ import javax.tools.Diagnostic
  * @date 2020/12/23
  * @description
  */
-@AutoService(Processor::class)
+//@AutoService(Processor::class)
 class KotlinProcessor : AbstractProcessor() {
 
     override fun process(

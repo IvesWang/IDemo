@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 import cc.ives.idemo.IDemoContext;
-import cc.ives.idemo.IDemoGenerator;
 import cc.ives.idemo.annotation.IDAction;
-import cc.ives.idemo.annotation.IDClassInfo;
+import cc.ives.idemo.annotation.IDItemInfo;
 
 /**
  * @author wangziguang
@@ -128,14 +127,14 @@ public class IDemoHelper {
      * 调用前必须要保证Context已经初始化
      * @return
      */
-    public static List<IDClassInfo> getModuleClassListSync(String... packageNames){
+    public static List<IDItemInfo> getModuleClassListSync(String... packageNames){
 
-        List<IDClassInfo> infoList = null;
-        infoList = IDemoGenerator.getRootClassInfo(packageNames);
+        List<IDItemInfo> infoList = null;
+        infoList = IDemoGenerator2.getRootClassInfo();
 
-        Collections.sort(infoList, new Comparator<IDClassInfo>() {
+        Collections.sort(infoList, new Comparator<IDItemInfo>() {
             @Override
-            public int compare(IDClassInfo o1, IDClassInfo o2) {
+            public int compare(IDItemInfo o1, IDItemInfo o2) {
                 return o1.getIndexTime() - o2.getIndexTime();
             }
         });
@@ -149,19 +148,19 @@ public class IDemoHelper {
      * @param preModule
      * @return
      */
-    public static List<IDClassInfo> getModuleClassListSync(final Class preModule, String... packageNames){
+    public static List<IDItemInfo> getModuleClassListSync(final Class preModule, String... packageNames){
 
-        List<IDClassInfo> infoList = null;
-        infoList = IDemoGenerator.getChildClassInfo(preModule, packageNames);// 直接子操作类
+        List<IDItemInfo> infoList = null;
+        infoList = IDemoGenerator2.getChildClassInfo(preModule);// 直接子操作类
 
-        List<IDClassInfo> methodClzList = IDemoGenerator.buildMethodClass(preModule);// 方法产生的操作类
+        List<IDItemInfo> methodClzList = IDemoGenerator2.buildMethodClass(preModule);// 方法产生的操作类
         if (!methodClzList.isEmpty()){
             infoList.addAll(methodClzList);
         }
 
-        Collections.sort(infoList, new Comparator<IDClassInfo>() {
+        Collections.sort(infoList, new Comparator<IDItemInfo>() {
             @Override
-            public int compare(IDClassInfo o1, IDClassInfo o2) {
+            public int compare(IDItemInfo o1, IDItemInfo o2) {
                 return o1.getIndexTime() - o2.getIndexTime();
             }
         });

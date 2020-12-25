@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import cc.ives.idemo.annotation.IDClassInfo;
+import cc.ives.idemo.annotation.IDItemInfo;
 import cc.ives.idemo.util.IDemoHelper;
 
 /**
@@ -15,7 +15,7 @@ import cc.ives.idemo.util.IDemoHelper;
  * @description
  */
 public class AutoEntryListVM extends ViewModel {
-    private MutableLiveData<List<IDClassInfo>> entryListData = new MutableLiveData<>();
+    private MutableLiveData<List<IDItemInfo>> entryListData = new MutableLiveData<>();
 
     /**
      * 返回扫描到的类信息
@@ -23,12 +23,12 @@ public class AutoEntryListVM extends ViewModel {
      * @param packageNames 仅扫描指定包名下的类。可输入多个包名
      * @return
      */
-    public LiveData<List<IDClassInfo>> getEntryClassList(final Class preModuleClz, String... packageNames){
+    public LiveData<List<IDItemInfo>> getEntryClassList(final Class preModuleClz, String... packageNames){
         new Thread(new Runnable() {//todo 创建了线程
             @Override
             public void run() {
 
-                List<IDClassInfo> infoList = preModuleClz == null ? IDemoHelper.getModuleClassListSync(packageNames) : IDemoHelper.getModuleClassListSync(preModuleClz, packageNames);
+                List<IDItemInfo> infoList = preModuleClz == null ? IDemoHelper.getModuleClassListSync(packageNames) : IDemoHelper.getModuleClassListSync(preModuleClz, packageNames);
 
                 entryListData.postValue(infoList);
             }

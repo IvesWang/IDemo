@@ -3,7 +3,6 @@ package cc.ives.idemo.ui;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import cc.ives.idemo.IDemoContext;
-import cc.ives.idemo.annotation.IDClassInfo;
+import cc.ives.idemo.annotation.IDItemInfo;
 import cc.ives.idemo.util.IDLog;
 
 /**
@@ -35,7 +34,7 @@ public class AutoEntryListFragment extends ListFragment {
     private static final String TAG = AutoEntryListFragment.class.getSimpleName();
 
     private Class preEntryClz;// 本fragment展示的前一个操作入口，首个fragment则为null
-    private List<IDClassInfo> entryClassInfoList;
+    private List<IDItemInfo> entryClassInfoList;
 
     private UIAction uiAction;
     private String[] packageNames;
@@ -72,22 +71,19 @@ public class AutoEntryListFragment extends ListFragment {
         ViewModelProviders.of(this)
                 .get(AutoEntryListVM.class)
                 .getEntryClassList(preEntryClz, packageNames)// 空则表示是根节点页面
-                .observe(this, new Observer<List<IDClassInfo>>() {
+                .observe(this, new Observer<List<IDItemInfo>>() {
 
                     @Override
                     @RequiresApi(api = Build.VERSION_CODES.N)
-                    public void onChanged(List<IDClassInfo> entryClassInfos) {
+                    public void onChanged(List<IDItemInfo> entryClassInfos) {
                         entryClassInfoList = entryClassInfos;
                         // todo 到这里getContext有没有可能是空的？会不会执行到这的时候fragemnt才被销毁？
 
-                        List<String> classDescList = entryClassInfos.stream().map(new Function<IDClassInfo, String>() {
+                        List<String> classDescList = entryClassInfos.stream().map(new Function<IDItemInfo, String>() {
                             @Override
-                            public String apply(IDClassInfo entryClassInfo) {
-                                // 优先返回desc，否则返回类名
-                                if (TextUtils.isEmpty(entryClassInfo.getDesc())){
-                                    return entryClassInfo.getCurrentClz().getSimpleName();
-                                }
-                                return entryClassInfo.getDesc();
+                            public String apply(IDItemInfo entryClassInfo) {
+                                // 显示的名称
+                                return entryClassInfo.getItemName();
                             }
                         }).collect(Collectors.<String>toList());// !!!<String>
 
@@ -102,8 +98,8 @@ public class AutoEntryListFragment extends ListFragment {
     @Override
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        IDClassInfo entryClassInfo = entryClassInfoList.get(position);
-        IDLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getCurrentClz().getCanonicalName()));
+        IDItemInfo entryClassInfo = entryClassInfoList.get(position);
+        IDLog.i(TAG, String.format("onListItemClick() 点击了:%s", entryClassInfo.getItemName()));
 
         uiAction.onItemClick(entryClassInfo, getActivity(), getFragmentManager());
     }

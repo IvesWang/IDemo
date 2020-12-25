@@ -2,13 +2,15 @@ package cc.ives.idemo.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
-import cc.ives.idemo.annotation.IDClassInfo;
+import cc.ives.idemo.annotation.IDItemInfo;
 import cc.ives.idemo.util.IDemoHelper;
 
 /**
@@ -20,52 +22,66 @@ class UIAction {
     private static final String TAG = "UIAction";
     static final String KEY_ARGUMENT_PRE_MODULE_CLZ = "preModule";
 
-    public void onItemClick(IDClassInfo moduleClassInfo, Activity activity, android.app.FragmentManager fragmentManager){
+    public void onItemClick(IDItemInfo moduleClassInfo, Activity activity, android.app.FragmentManager fragmentManager){
         onItemClick(moduleClassInfo, activity, null, fragmentManager);
     }
 
-    public void onItemClick(IDClassInfo moduleClassInfo, Activity activity, FragmentManager fragmentManager){
+    public void onItemClick(IDItemInfo moduleClassInfo, Activity activity, FragmentManager fragmentManager){
         onItemClick(moduleClassInfo, activity, fragmentManager, null);
     }
 
-    private void onItemClick(IDClassInfo moduleClassInfo, Activity activity, FragmentManager fragmentManagerX, android.app.FragmentManager fragmentManager){
+    private void onItemClick(IDItemInfo moduleClassInfo, Activity activity, FragmentManager fragmentManagerX, android.app.FragmentManager fragmentManager){
+
+        Class targetClass;
+        try {
+            targetClass = Class.forName(moduleClassInfo.getClassName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
 
         // activity则startActivity，否则找该类的入口点击方法
-        if (isChild(moduleClassInfo.getCurrentClz(), Activity.class) || isChild(moduleClassInfo.getCurrentClz(), FragmentActivity.class)) {
+        if (isChild(targetClass, Activity.class) || isChild(targetClass, FragmentActivity.class)) {
 
             // activity，启动该activity
-            activity.startActivity(new Intent(activity, moduleClassInfo.getCurrentClz()));
+            activity.startActivity(new Intent(activity, targetClass));
         }else {
 
             // 不是注解方法产生的实例
             if (!isItemFromMethod(moduleClassInfo)) {
 
                 // 调用入口类的点击方法
-                IDemoHelper.invokeModuleMethod(moduleClassInfo.getCurrentClz());
+                IDemoHelper.invokeModuleMethod(targetClass);
 
                 // 有子操作，建立子页面
-                List<IDClassInfo> childEntryList = IDemoHelper.getModuleClassListSync(moduleClassInfo.getCurrentClz());
+                List<IDItemInfo> childEntryList = IDemoHelper.getModuleClassListSync(targetClass);
                 if (!childEntryList.isEmpty()) {
                     if (fragmentManagerX == null) {
-                        IDemoPage.nextNewPage(fragmentManager, moduleClassInfo.getCurrentClz());
+                        IDemoPage.nextNewPage(fragmentManager, targetClass);
                     } else {
-                        IDemoPage.nextNewPage(fragmentManagerX, moduleClassInfo.getCurrentClz());
+                        IDemoPage.nextNewPage(fragmentManagerX, targetClass);
                     }
                 }
             }else {
                 // 注解方法产生的实例，调用其注解方法
-                IDemoHelper.invokeModuleMethod(moduleClassInfo.getCurrentClz(), moduleClassInfo.getPresentMethod());
+                try {
+                    Method targetMethod = targetClass.getDeclaredMethod(moduleClassInfo.getFunctionName());
+                    targetMethod.setAccessible(true);
+                    IDemoHelper.invokeModuleMethod(targetClass, targetMethod);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     /**
-     * 本item的IDClassInfo是否因方法添加了IDEvent注解而创建，是则不创建子类面了
+     * item是否有注解方法
      * @param moduleClassInfo
      * @return
      */
-    private boolean isItemFromMethod(IDClassInfo moduleClassInfo){
-        return moduleClassInfo.getCurrentClz() == moduleClassInfo.getPreEntryClz(); // 或者 moduleClassInfo.getPresentMethod() != null
+    private boolean isItemFromMethod(IDItemInfo moduleClassInfo){
+        return !TextUtils.isEmpty(moduleClassInfo.getFunctionName());
     }
 
     /**
