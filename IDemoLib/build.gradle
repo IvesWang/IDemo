@@ -33,8 +33,9 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation 'cc.ives.idemo:annotation:1.0.0'
 //    implementation project(':idemo-annotation')
 
     compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
@@ -55,6 +56,10 @@ dependencies {
 //    implementation 'com.mapzen:on-the-road:1.3.2'
 }
 repositories {
+    maven {
+        def repoURL = "file:///" + rootDir + "/idemo-annotation/pkg/"
+        url repoURL
+    }
     maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     mavenCentral()
 }

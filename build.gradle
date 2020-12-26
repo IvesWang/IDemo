@@ -21,7 +21,8 @@ buildscript {
 allprojects {
     repositories {
         maven {
-            url file('./idemo-annotation/pkg/')
+            def repoURL = "file:///" + rootDir + "/idemo-annotation/pkg/"
+            url repoURL
         }
         google()
         jcenter()
