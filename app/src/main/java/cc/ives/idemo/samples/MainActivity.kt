@@ -3,6 +3,7 @@ package cc.ives.idemo.samples
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import cc.ives.idemo.annotation.IDModule
+import cc.ives.idemo.ui.IDemoPage
 
 /**
  * @author wangziguang
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        IDemoPage.init(supportFragmentManager, "cc.ives", "com.ives")
+        IDemoPage.init(supportFragmentManager, "cc.ives", "com.ives")
     }
 
 }

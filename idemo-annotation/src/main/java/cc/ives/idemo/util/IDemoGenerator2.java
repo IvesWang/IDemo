@@ -22,10 +22,14 @@ public class IDemoGenerator2 {
      * @return
      */
     public static List<IDItemInfo> getChildClassInfo(final Class preModule){
-        String preModuleName = preModule == null? null:preModule.getCanonicalName();
+        String preModuleName = preModule == null? Object.class.getCanonicalName():preModule.getCanonicalName();//IDModule的preModule注解已经确定了默认的上级module类为Object，注解处理器也会有相应的处理
         // 包含方法的父级类本身如果也在这里构建，就需要反射类和方法来做，所以在编译期就构建更划算
         // 返回方法列表和子类名列表
-        return classInfoCache.get(preModuleName);
+        List<IDItemInfo> list = classInfoCache.get(preModuleName);
+        if (list == null){
+            list = new ArrayList<>();
+        }
+        return list;
     }
 
     /**

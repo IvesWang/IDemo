@@ -14,6 +14,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // 将注解处理器依赖的类也编译打包
+        javaCompileOptions {
+            annotationProcessorOptions{
+                includeCompileClasspath true
+            }
+        }
     }
     buildTypes {
         release {
