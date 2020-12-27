@@ -16,6 +16,10 @@ public class IDemoGenerator2 {
 
     public static HashMap<String, LinkedList<IDItemInfo>> classInfoCache = new HashMap<>();
 
+//    static{
+//        classInfoCache.put("", )
+//    }
+
     /**
      * 获取所有二级类信息。包括二级类及包含方法的父级类本身
      * @param preModule 当为null时返回所有的0级类
