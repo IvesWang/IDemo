@@ -130,14 +130,14 @@ public class IDemoHelper {
     public static List<IDItemInfo> getModuleClassListSync(String... packageNames){
 
         List<IDItemInfo> infoList = null;
-        infoList = IDemoGenerator2.getRootClassInfo();
-
-        Collections.sort(infoList, new Comparator<IDItemInfo>() {
-            @Override
-            public int compare(IDItemInfo o1, IDItemInfo o2) {
-                return o1.getIndexTime() - o2.getIndexTime();
-            }
-        });
+//        infoList = IDemoGenerator2.getRootClassInfo();
+//
+//        Collections.sort(infoList, new Comparator<IDItemInfo>() {
+//            @Override
+//            public int compare(IDItemInfo o1, IDItemInfo o2) {
+//                return o1.getIndexTime() - o2.getIndexTime();
+//            }
+//        });
 
         return infoList;
     }
@@ -151,19 +151,19 @@ public class IDemoHelper {
     public static List<IDItemInfo> getModuleClassListSync(final Class preModule, String... packageNames){
 
         List<IDItemInfo> infoList = null;
-        infoList = IDemoGenerator2.getChildClassInfo(preModule);// 直接子操作类
-
-        List<IDItemInfo> methodClzList = IDemoGenerator2.buildMethodClass(preModule);// 方法产生的操作类
-        if (!methodClzList.isEmpty()){
-            infoList.addAll(methodClzList);
-        }
-
-        Collections.sort(infoList, new Comparator<IDItemInfo>() {
-            @Override
-            public int compare(IDItemInfo o1, IDItemInfo o2) {
-                return o1.getIndexTime() - o2.getIndexTime();
-            }
-        });
+//        infoList = IDemoGenerator2.getChildClassInfo(preModule);// 直接子操作类
+//
+//        List<IDItemInfo> methodClzList = IDemoGenerator2.buildMethodClass(preModule);// 方法产生的操作类
+//        if (!methodClzList.isEmpty()){
+//            infoList.addAll(methodClzList);
+//        }
+//
+//        Collections.sort(infoList, new Comparator<IDItemInfo>() {
+//            @Override
+//            public int compare(IDItemInfo o1, IDItemInfo o2) {
+//                return o1.getIndexTime() - o2.getIndexTime();
+//            }
+//        });
 
         return infoList;
     }

@@ -2,6 +2,7 @@ package cc.ives.idemo;
 
 import com.google.auto.service.AutoService;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -23,6 +24,9 @@ import javax.tools.Diagnostic;
 import cc.ives.idemo.annotation.IDAction;
 import cc.ives.idemo.annotation.IDItemInfo;
 import cc.ives.idemo.annotation.IDModule;
+import cc.ives.idemo.util.CodeWriter;
+import javassist.CannotCompileException;
+import javassist.NotFoundException;
 
 @AutoService(Processor.class)
 public class IDemoProcessor extends AbstractProcessor {
@@ -100,6 +104,19 @@ public class IDemoProcessor extends AbstractProcessor {
                 }
 //                IDemoGenerator2.classInfoCache = classInfoCache;
 
+                //javapoet结合filer，可方便地找到地方来创建类
+                CodeWriter.blewJava(classInfoCache, this.processingEnv.getFiler());
+
+                //javassist不可行，找不到类来编辑
+//                try {
+//                    InjectUtil.injectInitAnnotationInfoSet(classInfoCache);
+//                } catch (NotFoundException e) {
+//                    e.printStackTrace();
+//                } catch (CannotCompileException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
                 Name qualifiedName = ((TypeElement)element).getQualifiedName();
                 messager.printMessage(Diagnostic.Kind.NOTE, "qualifiedName：" + qualifiedName.toString());

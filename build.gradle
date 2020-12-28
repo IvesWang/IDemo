@@ -20,6 +20,7 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
         maven {
             url uri(rootDir.getAbsolutePath() + File.separator + 'idemo-annotation' + File.separator + 'pkg')
         }
