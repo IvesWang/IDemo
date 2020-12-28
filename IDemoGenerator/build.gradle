@@ -49,6 +49,9 @@ dependencies {
 //    annotationProcessor files('libs/IDemoLib.jar')
     implementation project(':thirdpart')
 
+    // javapoet
+    api 'com.squareup:javapoet:1.13.0'
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

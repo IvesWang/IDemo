@@ -92,7 +92,7 @@ public class IDemoProcessor extends AbstractProcessor {
                         if(funAnnotation != null){
                             messager.printMessage(Diagnostic.Kind.NOTE, "注解item值是:" + funAnnotation.itemName());
                             childItemInfo = new IDItemInfo();
-                            childItemInfo.setItemName(funAnnotation.itemName());
+                            childItemInfo.setItemName((funAnnotation.itemName()==null||"".equals(funAnnotation.itemName()))?functionElement.getSimpleName().toString():funAnnotation.itemName());
                             childItemInfo.setClassName(element.asType().toString());
                             childItemInfo.setIndexTime(classAnnotation.indexTime());
                             childItemInfo.setFunctionName(functionElement.getSimpleName().toString());//跳转方法

@@ -2,6 +2,7 @@ package cc.ives.idemo.util;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -28,44 +29,35 @@ import cc.ives.idemo.annotation.IDItemInfo;
  */
 public class CodeWriter {
 
+    // 构建cc.ives.idemo.util.IDemoGenerator2类
     public static void blewJava(HashMap<String, LinkedList<IDItemInfo>> annotationInfo, Filer filer){
-        // 构建cc.ives.idemo.util.IDemoGenerator2类
-
-        TypeSpec.Builder iDemoGenerator2ClassBuilder = TypeSpec.classBuilder("IDemoGenerator2");
-        iDemoGenerator2ClassBuilder.addModifiers(Modifier.PUBLIC, Modifier.FINAL);
-
-        TypeName mapType = ParameterizedTypeName.get(
-                ClassName.get(HashMap.class),
-                TypeName.get(String.class),
-                ParameterizedTypeName.get(LinkedList.class, IDItemInfo.class));// HashMap<String, LinkedList<IDItemInfo>>
-
-        iDemoGenerator2ClassBuilder.addField(mapType, "classInfoCache", Modifier.PRIVATE, Modifier.STATIC);
 
         // 编写静态代码块，item信息初始化的代码
         StringBuilder sb = new StringBuilder();
         Iterator<String> keyIt = annotationInfo.keySet().iterator();
         String key;
         LinkedList<IDItemInfo> inputItemList;
-        int index = 0;
+        int listIndex = 0;
+        int itemIndex = 0;
         while (keyIt.hasNext()){
             key = keyIt.next();
-            sb.append("LinkedList<IDItemInfo> itemList").append(index).append(" = new LinkedList<>();");//LinkedList<IDItemInfo> itemList2 = new LinkedList<>();
+            sb.append("LinkedList<IDItemInfo> itemList").append(listIndex).append(" = new LinkedList<>();").append("\n");//LinkedList<IDItemInfo> itemList2 = new LinkedList<>();
             inputItemList = annotationInfo.get(key);
             for (IDItemInfo itemInfo1 : inputItemList) {
-                sb.append("IDItemInfo itemInfo").append(index).append(" = new IDItemInfo();");
-                sb.append("itemInfo").append(index).append(".setFunctionName(").append(itemInfo1.getFunctionName()).append(");");
-                sb.append("itemInfo").append(index).append(".setIndexTime(").append(itemInfo1.getIndexTime()).append(");");
-                sb.append("itemInfo").append(index).append(".setClassName(").append(itemInfo1.getClassName()).append(");");
-                sb.append("itemInfo").append(index).append(".setItemName(").append(itemInfo1.getItemName()).append(");");
-                sb.append("itemList").append(index).append(".add(itemInfo").append(index).append(");");
+                sb.append("IDItemInfo itemInfo").append(itemIndex).append(" = new IDItemInfo();").append("\n");
+                sb.append("itemInfo").append(itemIndex).append(".setFunctionName(\"").append(itemInfo1.getFunctionName()).append("\");").append("\n");
+                sb.append("itemInfo").append(itemIndex).append(".setIndexTime(").append(itemInfo1.getIndexTime()).append(");").append("\n");
+                sb.append("itemInfo").append(itemIndex).append(".setClassName(\"").append(itemInfo1.getClassName()).append("\");").append("\n");
+                sb.append("itemInfo").append(itemIndex).append(".setItemName(\"").append(itemInfo1.getItemName()).append("\");").append("\n");
+                sb.append("itemList").append(listIndex).append(".add(itemInfo").append(itemIndex).append(");").append("\n");
+                itemIndex++;
             }
-            sb.append("classInfoCache.put(").append(key).append(", itemList").append(index).append(");");
-            index++;
+            sb.append("classInfoCache.put(\"").append(key).append("\", itemList").append(listIndex).append(");").append("\n");
+            listIndex++;
         }
 
         CodeBlock.Builder staticBlockBuilder = CodeBlock.builder();
         staticBlockBuilder.addStatement(sb.toString());
-        iDemoGenerator2ClassBuilder.addStaticBlock(staticBlockBuilder.build());
 
 //        String preModuleName = preModule == null? Object.class.getCanonicalName():preModule.getCanonicalName();
 //        List<IDItemInfo> list = classInfoCache.get(preModuleName);
@@ -86,9 +78,24 @@ public class CodeWriter {
                 .addStatement("}")
                 .addStatement("return list")
                 .build();
-        iDemoGenerator2ClassBuilder.addMethod(getChildClassInfoMethod);
 
-        JavaFile javaFile = JavaFile.builder("cc.ives.idemo.util", iDemoGenerator2ClassBuilder.build())
+
+        TypeName mapType = ParameterizedTypeName.get(
+                ClassName.get(HashMap.class),
+                TypeName.get(String.class),
+                ParameterizedTypeName.get(LinkedList.class, IDItemInfo.class));// HashMap<String, LinkedList<IDItemInfo>>
+        FieldSpec cacheFieldSpec = FieldSpec.builder(mapType, "classInfoCache", Modifier.PRIVATE, Modifier.STATIC)
+                .initializer("new $T<>()", HashMap.class)
+                .build();
+
+        TypeSpec iDemoGenerator2Class = TypeSpec.classBuilder("IDemoGenerator2")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addField(cacheFieldSpec)
+                .addStaticBlock(staticBlockBuilder.build())
+                .addMethod(getChildClassInfoMethod)
+                .build();
+
+        JavaFile javaFile = JavaFile.builder("cc.ives.idemo.util", iDemoGenerator2Class)
                 .build();
         try {
             javaFile.writeTo(filer);
