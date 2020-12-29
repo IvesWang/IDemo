@@ -20,13 +20,12 @@ dependencies {
 ```
 [![](https://jitpack.io/v/IvesWang/IDemo.svg)](https://jitpack.io/#IvesWang/IDemo)
 
-
 ###### 2. 初始化IDemo
 在任意你想被"托管"的activity中加入以下代码</br>
 ```
 IDemoPage.init(getSupportFragmentManager());
 ```
-这样你这个activity的界面就会被IDemo的一个fragment替换掉，后边的界面显示就开始使用IDemo的注解逻辑了。
+这样你这个activity的界面就会被IDemo的一个fragment替换掉，后边的界面显示就开始使用IDemo的注解逻辑了。</br>
 
 
 ###### 3. 引入注解
