@@ -16,7 +16,7 @@ class IDemoPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         printPaths(project)
-        File mBuildDir = new File(project.getBuildDir(), "FunctionAdder")
+        File mBuildDir = new File(project.getBuildDir(), "idemo_plugin")
         project.android.registerTransform(new IDemoTransform(project))
     }
 
@@ -36,18 +36,18 @@ class IDemoPlugin implements Plugin<Project> {
             println "plugin is:${it}"
             switch (it) {
                 case FeaturePlugin :
-                    project.extensions[FeatureExtension].run {
+                    project.extensions.getByType(FeatureExtension).run {
                         configureR2Generation(project, featureVariants)
                         configureR2Generation(project, libraryVariants)
                     }
                     break
                 case LibraryPlugin :
-                    project.extensions[LibraryExtension].run {
+                    project.extensions.getByType(LibraryExtension).run {
                         configureR2Generation(project, libraryVariants)
                     }
                     break
                 case AppPlugin :
-                    project.extensions[AppExtension].run {
+                    project.extensions.getByType(AppExtension).run {
                         configureR2Generation(project, applicationVariants)
                     }
                     break

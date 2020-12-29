@@ -36,6 +36,11 @@ android {
     }
 
     lintOptions {
+        quiet true
+        checkAllWarnings false
+        checkReleaseBuilds false
+        checkTestSources false
+        ignoreTestSources true
         abortOnError false
     }
 
@@ -47,7 +52,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 //    implementation project(':thirdpart')
     implementation project(':IDemoGenerator')
@@ -62,5 +67,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'cc.ives.idemo:annotation:1.0.0'
-    annotationProcessor files('libs/IDemoProcessor.jar')
+//    annotationProcessor files('libs/IDemoProcessor.jar')
 }
