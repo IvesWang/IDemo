@@ -1,0 +1,31 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //gradle sdk
+    implementation gradleApi()
+    //groovy sdk
+    implementation localGroovy()
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"
+
+repositories {
+    mavenCentral()
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = 'cc.ives.idemo'   //groupId
+            pom.artifactId = 'plugin'  //artifactId
+            pom.version = '1.0.0' //版本号
+            //本地的Maven地址设置为
+            repository(url: uri('pkg/'))
+
+        }
+    }
+}
