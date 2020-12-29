@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -130,7 +131,11 @@ public class IDemoHelper {
     public static List<IDItemInfo> getModuleClassListSync(String... packageNames){
 
         List<IDItemInfo> infoList = null;
-        infoList = IDemoGenerator2.getRootClassInfo();
+//        infoList = IDemoGenerator2.getRootClassInfo();
+
+        if (infoList == null){
+            infoList = new ArrayList<>();
+        }
 
         Collections.sort(infoList, new Comparator<IDItemInfo>() {
             @Override
@@ -151,12 +156,16 @@ public class IDemoHelper {
     public static List<IDItemInfo> getModuleClassListSync(final Class preModule, String... packageNames){
 
         List<IDItemInfo> infoList = null;
-        infoList = IDemoGenerator2.getChildClassInfo(preModule);// 直接子操作类
+//        infoList = IDemoGenerator2.getChildClassInfo(preModule);// 直接子操作类
 
-        List<IDItemInfo> methodClzList = IDemoGenerator2.buildMethodClass(preModule);// 方法产生的操作类
-        if (!methodClzList.isEmpty()){
-            infoList.addAll(methodClzList);
+        if (infoList == null){
+            infoList = new ArrayList<>();
         }
+
+//        List<IDItemInfo> methodClzList = IDemoGenerator2.buildMethodClass(preModule);// 方法产生的操作类
+//        if (methodClzList != null && !methodClzList.isEmpty()){
+//            infoList.addAll(methodClzList);
+//        }
 
         Collections.sort(infoList, new Comparator<IDItemInfo>() {
             @Override

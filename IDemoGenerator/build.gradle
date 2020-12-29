@@ -17,6 +17,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+
     }
 
     buildTypes {
@@ -46,7 +47,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'cc.ives.idemo:annotation:1.0.0'
-//    annotationProcessor files('libs/IDemoLib.jar')
     implementation project(':thirdpart')
 
     // javapoet
