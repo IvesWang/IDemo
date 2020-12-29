@@ -74,7 +74,7 @@ public class IDemoProcessor extends AbstractProcessor {
                     itemInfo.setClassName(element.asType().toString());
                     itemInfo.setItemName((classAnnotation.desc() == null || "".equals(classAnnotation.desc())) ? element.getSimpleName().toString() : classAnnotation.desc());
                     itemInfo.setIndexTime(classAnnotation.indexTime());
-                    itemInfo.setFunctionName(null);//对于上级，这只是一个跳转项，不存在注解方法
+                    itemInfo.setFunctionName("");//对于上级，这只是一个跳转项，不存在注解方法
                     itemListOfParent.add(itemInfo);
 
                     // 将当前类的方法作为item，构建至当前类的下级列表
@@ -100,23 +100,7 @@ public class IDemoProcessor extends AbstractProcessor {
                         }
                     }
 
-                    // <<< 内存构建完毕
                 }
-//                IDemoGenerator2.classInfoCache = classInfoCache;
-
-                //javapoet结合filer，可方便地找到地方来创建类
-                CodeWriter.blewJava(classInfoCache, this.processingEnv.getFiler());
-
-                //javassist不可行，找不到类来编辑
-//                try {
-//                    InjectUtil.injectInitAnnotationInfoSet(classInfoCache);
-//                } catch (NotFoundException e) {
-//                    e.printStackTrace();
-//                } catch (CannotCompileException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
 
                 Name qualifiedName = ((TypeElement)element).getQualifiedName();
                 messager.printMessage(Diagnostic.Kind.NOTE, "qualifiedName：" + qualifiedName.toString());
@@ -158,8 +142,24 @@ public class IDemoProcessor extends AbstractProcessor {
 //            messager.printMessage(Diagnostic.Kind.WARNING, "元素名：" + element.getSimpleName());
 //            messager.printMessage(Diagnostic.Kind.WARNING, "元素名：" + element.getSimpleName());
 //            messager.printMessage(Diagnostic.Kind.WARNING, "元素名：" + element.getSimpleName());
-//            writePoetCode();
         }
+        // <<< 内存构建完毕
+//            writePoetCode();
+//                IDemoGenerator2.classInfoCache = classInfoCache;
+
+        //javapoet结合filer，可方便地找到地方来创建类
+        CodeWriter.blewJava(classInfoCache, this.processingEnv.getFiler());
+
+        //javassist不可行，找不到类来编辑
+//                try {
+//                    InjectUtil.injectInitAnnotationInfoSet(classInfoCache);
+//                } catch (NotFoundException e) {
+//                    e.printStackTrace();
+//                } catch (CannotCompileException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
         return false;
     }
 
