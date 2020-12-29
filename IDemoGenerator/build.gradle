@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'cc.ives.idemo.plugin'
 
 // maven发布到github
 apply plugin: 'com.github.dcendents.android-maven'
