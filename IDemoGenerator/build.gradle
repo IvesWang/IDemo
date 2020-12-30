@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'cc.ives.idemo.plugin'
 
 // maven发布到github
 apply plugin: 'com.github.dcendents.android-maven'
@@ -16,7 +15,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
 
     }
@@ -37,26 +35,19 @@ android {
         abortOnError false
     }
 
-//    repositories {
-//        flatDir {
-//            dirs 'libs'
-//        }
-//    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'cc.ives.idemo:annotation:1.0.0'
-    implementation project(':thirdpart')
 
     // javapoet
     api 'com.squareup:javapoet:1.13.0'
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // ViewModel + LiveData
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 
     // 可扫描出添加了某注解的类（该版本有bug，目前未使用，只使用了arouter的一个ClassUtil实现需求）
     implementation 'org.reflections:reflections:0.9.12'

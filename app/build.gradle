@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//apply plugin: 'cc.ives.idemo.plugin'
 
 android {
     compileSdkVersion 28
@@ -69,4 +68,5 @@ dependencies {
 
     implementation 'cc.ives.idemo:annotation:1.0.0'
     kapt files('libs/IDemoProcessor.jar')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }

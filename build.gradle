@@ -3,9 +3,6 @@
 buildscript {
     ext.kotlin_version = '1.3.72'
     repositories {
-        maven {
-            url uri('./idemo-plugin/pkg/')
-        }
         google()
         jcenter()
         
@@ -18,8 +15,6 @@ buildscript {
 
         // maven发布到github
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-
-//        classpath 'cc.ives.idemo:plugin:1.0.0'
     }
 }
 
