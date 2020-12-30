@@ -1,5 +1,9 @@
 apply plugin: 'java-library'
-apply plugin: 'maven'
+//apply plugin: 'maven'
+
+// maven发布到github
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.iveswang'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -13,15 +17,15 @@ repositories {
 }
 //以上都为固定写法
 //打包到本地或者远程Maven库
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            pom.groupId = 'cc.ives.idemo'   //groupId
-            pom.artifactId = 'annotation'  //artifactId
-            pom.version = '1.0.0' //版本号
-            //本地的Maven地址设置为
-            repository(url: uri('pkg/'))
-
-        }
-    }
-}
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            pom.groupId = 'cc.ives.idemo'   //groupId
+//            pom.artifactId = 'annotation'  //artifactId
+//            pom.version = '1.0.0' //版本号
+//            //本地的Maven地址设置为
+//            repository(url: uri('pkg/'))
+//
+//        }
+//    }
+//}
