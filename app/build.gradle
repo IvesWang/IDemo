@@ -66,7 +66,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'cc.ives.idemo:annotation:1.0.0'
+//    implementation 'cc.ives.idemo:annotation:1.0.0'
+    implementation 'com.github.IvesWang:IDemo:idemo-annotation:0.9-alpha'
     kapt files('libs/IDemoProcessor.jar')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
