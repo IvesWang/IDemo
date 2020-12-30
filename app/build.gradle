@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 //apply plugin: 'cc.ives.idemo.plugin'
 
 android {
@@ -54,7 +55,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    implementation 'com.jakewharton:butterknife-gradle-plugin:10.2.3'
 //    implementation project(':thirdpart')
     implementation project(':IDemoGenerator')
 
@@ -68,5 +68,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'cc.ives.idemo:annotation:1.0.0'
-    annotationProcessor files('libs/IDemoProcessor.jar')
+    kapt files('libs/IDemoProcessor.jar')
 }

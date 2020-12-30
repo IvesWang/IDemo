@@ -2,7 +2,6 @@ package cc.ives.idemo;
 
 import com.google.auto.service.AutoService;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -25,8 +24,6 @@ import cc.ives.idemo.annotation.IDAction;
 import cc.ives.idemo.annotation.IDItemInfo;
 import cc.ives.idemo.annotation.IDModule;
 import cc.ives.idemo.util.CodeWriter;
-import javassist.CannotCompileException;
-import javassist.NotFoundException;
 
 @AutoService(Processor.class)
 public class IDemoProcessor extends AbstractProcessor {
