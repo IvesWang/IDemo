@@ -53,3 +53,9 @@ dependencies {
     // 可扫描出添加了某注解的类（该版本有bug，目前未使用，只使用了arouter的一个ClassUtil实现需求）
     implementation 'org.reflections:reflections:0.9.12'
 }
+
+repositories {
+    maven {
+        url uri(rootDir.getAbsolutePath() + File.separator + 'idemo-annotation' + File.separator + 'pkg')
+    }
+}

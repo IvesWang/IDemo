@@ -71,3 +71,9 @@ dependencies {
     kapt files('libs/IDemoProcessor.jar')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
+
+repositories {
+    maven {
+        url uri(rootDir.getAbsolutePath() + File.separator + 'idemo-annotation' + File.separator + 'pkg')
+    }
+}
