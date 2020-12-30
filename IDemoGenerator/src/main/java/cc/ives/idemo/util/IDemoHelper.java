@@ -131,7 +131,7 @@ public class IDemoHelper {
     public static List<IDItemInfo> getModuleClassListSync(String... packageNames){
 
         List<IDItemInfo> infoList = null;
-//        infoList = IDemoGenerator2.getRootClassInfo();
+        infoList = getChildClassInfo(null);
 
         if (infoList == null){
             infoList = new ArrayList<>();
@@ -147,6 +147,27 @@ public class IDemoHelper {
         return infoList;
     }
 
+    private static List<IDItemInfo> getChildClassInfo(Class clazz){
+
+        Class idemoGenerator2Class = null;
+        try {
+            idemoGenerator2Class = Class.forName("cc.ives.idemo.util.IDemoGenerator2");
+            Method method = idemoGenerator2Class.getDeclaredMethod("getChildClassInfo", Class.class);
+            method.setAccessible(true);
+            List<IDItemInfo> itemList = (List<IDItemInfo>) method.invoke(null, clazz);
+            return itemList;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
     /**
      * 返回扫描到的类信息，此方法会阻塞当前线程。
      * 调用前必须要保证Context已经初始化
@@ -156,16 +177,11 @@ public class IDemoHelper {
     public static List<IDItemInfo> getModuleClassListSync(final Class preModule, String... packageNames){
 
         List<IDItemInfo> infoList = null;
-//        infoList = IDemoGenerator2.getChildClassInfo(preModule);// 直接子操作类
+        infoList = getChildClassInfo(preModule);// 直接子操作类
 
         if (infoList == null){
             infoList = new ArrayList<>();
         }
-
-//        List<IDItemInfo> methodClzList = IDemoGenerator2.buildMethodClass(preModule);// 方法产生的操作类
-//        if (methodClzList != null && !methodClzList.isEmpty()){
-//            infoList.addAll(methodClzList);
-//        }
 
         Collections.sort(infoList, new Comparator<IDItemInfo>() {
             @Override

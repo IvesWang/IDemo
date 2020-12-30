@@ -36,20 +36,17 @@ class IDemoPlugin implements Plugin<Project> {
             println "plugin is:${it}"
             switch (it) {
                 case FeaturePlugin :
-                    project.extensions.getByType(FeatureExtension).run {
-                        configureR2Generation(project, featureVariants)
-                        configureR2Generation(project, libraryVariants)
-                    }
+                    def extension = project.extensions.getByType(FeatureExtension)
+                    configureR2Generation(project, extension.featureVariants)
+                    configureR2Generation(project, extension.libraryVariants)
                     break
                 case LibraryPlugin :
-                    project.extensions.getByType(LibraryExtension).run {
-                        configureR2Generation(project, libraryVariants)
-                    }
+                    def extension = project.extensions.getByType(LibraryExtension)
+                    configureR2Generation(project, extension.libraryVariants)
                     break
                 case AppPlugin :
-                    project.extensions.getByType(AppExtension).run {
-                        configureR2Generation(project, applicationVariants)
-                    }
+                    def extension = project.extensions.getByType(AppExtension)
+                    configureR2Generation(project, extension.applicationVariants)
                     break
             }
         }
@@ -57,13 +54,12 @@ class IDemoPlugin implements Plugin<Project> {
 
     static void configureR2Generation(Project project, DomainObjectSet<BaseVariant> variants) {
         variants.all { variant ->
-            def myOutputDir = project.buildDir.resolve(
-                    "generated/source/r2/${variant.dirName}")
-            println "variant is${variant.dirName},myOutputDir is:${myOutputDir}"
+            def myOutputDir = "${project.buildDir.absolutePath}${File.separator}generated${File.separator}source${File.separator}r2${File.separator}${variant.dirName}"
+            println "variant is${variant.dirName},myOutputDir is:${myOutputDir}"    // E:\asproject\IDemo\app\build\generated\source\r2\debug
 
             variant.outputs.all { output ->
                 println "output file dir:${output.dirName}"
-//                variant.registerJavaGeneratingTask(generate, outputDir)
+//                variant.registerJavaGeneratingTask(generateTask, myOutputDir)
             }
         }
     }

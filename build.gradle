@@ -19,13 +19,13 @@ buildscript {
         // maven发布到github
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 
-        classpath 'cc.ives.idemo:plugin:1.0.0'
+//        classpath 'cc.ives.idemo:plugin:1.0.0'
     }
 }
 
 allprojects {
     repositories {
-        mavenLocal()
+//        mavenLocal()
         maven {
             url uri(rootDir.getAbsolutePath() + File.separator + 'idemo-annotation' + File.separator + 'pkg')
         }
