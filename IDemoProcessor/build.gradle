@@ -3,6 +3,7 @@ plugins {
     id 'kotlin'// 支持识别kotlin类
     id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.jvm' // 支持识别kotlin类
+    id 'maven'
 }
 
 java {
@@ -35,7 +36,7 @@ repositories {
 dependencies {
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.github.IvesWang:idemo-annotation:0.9-alpha16'
+    implementation 'com.github.IvesWang:idemo-annotation:0.9-alpha17'
 
     compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 
@@ -71,3 +72,5 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
+
+apply from:rootProject.file('gradle/gradle-maven-push.gradle')
