@@ -3,6 +3,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.IvesWang</groupId>
-  <artifactId>IDemo-annotation</artifactId>
-  <version>0.9-alpha15</version>
+  <artifactId>idemo-annotation</artifactId>
+  <version>0.9-alpha16</version>
 </project>

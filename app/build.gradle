@@ -67,7 +67,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 //    implementation 'cc.ives.idemo:annotation:1.0.0'
-    implementation 'com.github.IvesWang:IDemo-annotation:0.9-alpha15'
+    implementation 'com.github.IvesWang:idemo-annotation:0.9-alpha16'
 //    implementation 'com.github.IvesWang:idemo-annotation:1.0.0'
 
     kapt files('libs/IDemoProcessor.jar')
