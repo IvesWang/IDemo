@@ -41,7 +41,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 //    implementation 'cc.ives.idemo:annotation:1.0.0'
-    implementation 'com.github.IvesWang:IDemo-annotation:0.9-alpha13'
+    implementation 'com.github.IvesWang:IDemo-annotation:0.9-alpha14'
 //    implementation 'com.github.IvesWang:idemo-annotation:1.0.0'
 
     // javapoet
@@ -53,10 +53,4 @@ dependencies {
 
     // 可扫描出添加了某注解的类（该版本有bug，目前未使用，只使用了arouter的一个ClassUtil实现需求）
     implementation 'org.reflections:reflections:0.9.12'
-}
-
-repositories {
-    maven {
-        url uri(rootDir.getAbsolutePath() + File.separator + 'idemo-annotation' + File.separator + 'pkg')
-    }
 }
