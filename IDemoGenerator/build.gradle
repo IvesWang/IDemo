@@ -40,9 +40,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    implementation 'cc.ives.idemo:annotation:1.0.0'
+    implementation 'cc.ives.idemo:annotation:1.0.0'
 //    implementation 'com.github.IvesWang:IDemo:idemo-annotation:0.9-alpha3'
-    implementation 'com.github.IvesWang:idemo-annotation:1.0.0'
+//    implementation 'com.github.IvesWang:idemo-annotation:1.0.0'
 
     // javapoet
     api 'com.squareup:javapoet:1.13.0'
