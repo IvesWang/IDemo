@@ -1,9 +1,9 @@
 apply plugin: 'java-library'
-//apply plugin: 'maven'
+apply plugin: 'maven'
 
 // maven发布到github
-//apply plugin: 'com.github.dcendents.android-maven'
-//group='com.github.iveswang'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.iveswang'
 //version='1.0.0'
 
 dependencies {
@@ -31,4 +31,4 @@ targetCompatibility = "8"
 //    }
 //}
 
-apply from:rootProject.file('gradle/gradle-maven-push.gradle')
+//apply from:rootProject.file('gradle/gradle-maven-push.gradle')
