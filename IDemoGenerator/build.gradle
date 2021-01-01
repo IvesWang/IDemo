@@ -41,7 +41,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 //    implementation 'cc.ives.idemo:annotation:1.0.0'
-    implementation 'com.github.IvesWang:IDemo-annotation:0.9-alpha14'
+    implementation 'com.github.IvesWang:IDemo-annotation:0.9-alpha15'
 //    implementation 'com.github.IvesWang:idemo-annotation:1.0.0'
 
     // javapoet

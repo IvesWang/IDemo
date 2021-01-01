@@ -57,7 +57,7 @@ dependencies {
 //    implementation project(':thirdpart')
     implementation project(':IDemoGenerator')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72"
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -67,7 +67,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 //    implementation 'cc.ives.idemo:annotation:1.0.0'
-    implementation 'com.github.IvesWang:IDemo-annotation:0.9-alpha14'
+    implementation 'com.github.IvesWang:IDemo-annotation:0.9-alpha15'
 //    implementation 'com.github.IvesWang:idemo-annotation:1.0.0'
 
     kapt files('libs/IDemoProcessor.jar')
