@@ -1,9 +1,10 @@
 apply plugin: 'java-library'
-apply plugin: 'maven'
+//apply plugin: 'maven'
 
 // maven发布到github
 //apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.iveswang'
+//group='com.github.iveswang'
+//version='1.0.0'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -12,9 +13,9 @@ dependencies {
 sourceCompatibility = "8"
 targetCompatibility = "8"
 
-repositories {
-    mavenCentral()
-}
+//repositories {
+//    mavenCentral()
+//}
 //以上都为固定写法
 //打包到本地或者远程Maven库
 //uploadArchives {
@@ -29,3 +30,5 @@ repositories {
 //        }
 //    }
 //}
+
+apply from:rootProject.file('gradle/gradle-maven-push.gradle')
