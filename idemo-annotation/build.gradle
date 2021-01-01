@@ -3,7 +3,7 @@ apply plugin: 'maven'
 
 // maven发布到github
 //apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.iveswang'
+//group='com.github.iveswang'
 //version='1.0.0'
 
 dependencies {
@@ -13,22 +13,22 @@ dependencies {
 sourceCompatibility = "8"
 targetCompatibility = "8"
 
-//repositories {
-//    mavenCentral()
-//}
+repositories {
+    mavenCentral()
+}
 //以上都为固定写法
 //打包到本地或者远程Maven库
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            pom.groupId = 'cc.ives.idemo'   //groupId
-//            pom.artifactId = 'annotation'  //artifactId
-//            pom.version = '1.0.0' //版本号
-//            //本地的Maven地址设置为
-//            repository(url: uri('pkg/'))
-//
-//        }
-//    }
-//}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = 'com.github.IvesWang'   //groupId
+            pom.artifactId = 'IDemo-annotation'  //artifactId
+            pom.version = '0.9-alpha11' //版本号
+            //本地的Maven地址设置为
+            repository(url: uri('pkg/'))
+
+        }
+    }
+}
 
 //apply from:rootProject.file('gradle/gradle-maven-push.gradle')
