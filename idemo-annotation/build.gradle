@@ -23,7 +23,7 @@ uploadArchives {
         mavenDeployer {
             pom.groupId = 'com.github.IvesWang'   //groupId
             pom.artifactId = 'IDemo-annotation'  //artifactId
-            pom.version = '0.9-alpha11' //版本号
+            pom.version = '0.9-alpha12' //版本号
             //本地的Maven地址设置为
             repository(url: uri('pkg/'))
 

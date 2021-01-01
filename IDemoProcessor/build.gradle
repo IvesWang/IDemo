@@ -35,7 +35,7 @@ repositories {
 dependencies {
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.github.IvesWang:IDemo-annotation:0.9-alpha11'
+    implementation 'com.github.IvesWang:IDemo-annotation:0.9-alpha12'
 
     compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 
