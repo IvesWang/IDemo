@@ -29,27 +29,34 @@ tasks.withType(JavaCompile){
 
 repositories {
     flatDir {
-        dirs 'libs','IDemoGenerator/libs'
+        dirs 'libs','IDemoProcessor/libs'
     }
 }
 
 dependencies {
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.github.IvesWang:idemo-annotation:0.9-alpha17'
 
     compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+    implementation 'com.google.guava:guava:24.0-jre'
 
     // javapoet
     implementation 'com.squareup:javapoet:1.13.0'
     // javassit
     implementation 'org.javassist:javassist:3.24.0-GA'
 
-    implementation 'com.google.auto.service:auto-service:1.0-rc7'
-    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc7'//（必须要加上这行代码，否则无法注册成功）
-
+    compileOnly 'com.google.auto.service:auto-service:1.0-rc7'
+//    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc7'//（必须要加上这行代码，否则无法注册成功）
 //    // 支持识别kotlin类
     kapt 'com.google.auto.service:auto-service:1.0-rc7'
+    implementation 'com.google.auto:auto-common:0.10'
+
+    compileOnly "net.ltgt.gradle.incap:incap:0.3"
+    kapt "net.ltgt.gradle.incap:incap:incap-processor:0.3"
+//    implementation "IDemoProcessor/libs/incap-0.2.jar"
+//    compileOnly "IDemoProcessor/libs/incap-processor-0.2.jar"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72"//1.3.70-eap-42
 }
 //repositories {
@@ -58,6 +65,9 @@ dependencies {
 ////        def repoURL = "file:///" + rootDir + "/idemo-annotation/pkg/"
 ////        url repoURL
 //        url uri(rootDir.getAbsolutePath() + File.separator + 'idemo-annotation' + File.separator + 'pkg')
+//    }
+//    maven {
+//        url uri(rootDir.getAbsolutePath() + File.separator + 'IDemoProcessor' + File.separator + 'libs')
 //    }
 //    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
 //    mavenCentral()

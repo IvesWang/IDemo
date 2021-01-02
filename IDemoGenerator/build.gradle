@@ -41,11 +41,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 //    implementation 'cc.ives.idemo:annotation:1.0.0'
-    implementation 'com.github.IvesWang:idemo-annotation:0.9-alpha17'
+    api 'com.github.IvesWang:idemo-annotation:0.9-alpha17'
 //    implementation 'com.github.IvesWang:idemo-annotation:1.0.0'
 
     // javapoet
     api 'com.squareup:javapoet:1.13.0'
+    api 'com.google.guava:guava:24.0-jre'
+    api 'com.google.auto:auto-common:0.10'
+    api "net.ltgt.gradle.incap:incap:0.3"
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     // ViewModel + LiveData

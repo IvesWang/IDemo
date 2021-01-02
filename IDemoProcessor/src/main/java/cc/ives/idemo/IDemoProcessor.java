@@ -1,7 +1,13 @@
 package cc.ives.idemo;
 
 import com.google.auto.service.AutoService;
+import com.google.common.collect.ImmutableSet;
+import com.sun.source.util.Trees;
 
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessor;
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType;
+
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,6 +16,7 @@ import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
@@ -26,10 +33,35 @@ import cc.ives.idemo.annotation.IDModule;
 import cc.ives.idemo.util.CodeWriter;
 
 @AutoService(Processor.class)
+@IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.DYNAMIC)
 public class IDemoProcessor extends AbstractProcessor {
     // 官方中文文档 https://www.apiref.com/java11-zh/java.compiler/javax/lang/model/element/Element.html
 
     private HashMap<String, LinkedList<IDItemInfo>> classInfoCache = new HashMap<>();// key:preEntryClz的全类名, value:该类下的第一级子类集合（按顺序排好，可直接引入到最终生成的map）。只缓存一级父子关系
+
+    private Trees trees;
+
+    @Override
+    public synchronized void init(ProcessingEnvironment processingEnvironment) {
+        super.init(processingEnvironment);
+
+        try {
+            trees = Trees.instance(processingEnv);
+        } catch (IllegalArgumentException ignored) {
+            try {
+                // Get original ProcessingEnvironment from Gradle-wrapped one or KAPT-wrapped one.
+                for (Field field : processingEnv.getClass().getDeclaredFields()) {
+                    if (field.getName().equals("delegate") || field.getName().equals("processingEnv")) {
+                        field.setAccessible(true);
+                        ProcessingEnvironment javacEnv = (ProcessingEnvironment) field.get(processingEnv);
+                        trees = Trees.instance(javacEnv);
+                        break;
+                    }
+                }
+            } catch (Throwable ignored2) {
+            }
+        }
+    }
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
@@ -166,6 +198,15 @@ public class IDemoProcessor extends AbstractProcessor {
         typeSets.add(IDAction.class.getCanonicalName());
         typeSets.add(IDModule.class.getCanonicalName());
         return typeSets;
+    }
+
+    @Override
+    public Set<String> getSupportedOptions() {
+        ImmutableSet.Builder<String> builder = ImmutableSet.builder();
+        if (trees != null) {
+            builder.add(IncrementalAnnotationProcessorType.ISOLATING.getProcessorOption());
+        }
+        return builder.build();
     }
 
     @Override
