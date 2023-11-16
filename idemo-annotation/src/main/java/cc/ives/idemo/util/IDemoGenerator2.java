@@ -10,7 +10,7 @@
 ///**
 // * @author wangziguang
 // * @date 2020/12/24
-// * @description
+// * @description 这个不是本地使用的类，是对于编译期版本需要在编译期生成的类
 // */
 //public class IDemoGenerator2 {
 //
