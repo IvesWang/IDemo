@@ -69,21 +69,21 @@ public class IDemoProcessor extends AbstractProcessor {
         // 创建新类把缓存信息作为硬编码写入
 
         Messager messager = processingEnv.getMessager();
-        messager.printMessage(Diagnostic.Kind.NOTE, "IDemoProcessor process start");
-        messager.printMessage(Diagnostic.Kind.NOTE, "roundEnvironment class:"+roundEnvironment.getClass().getCanonicalName());
-        messager.printMessage(Diagnostic.Kind.NOTE, "set长度：" + set.size());// 找到的注解类型长度，不是添加了注解的类的集合。是getSupportedAnnotationTypes()的一个子集
+        messager.printMessage(Diagnostic.Kind.NOTE, "\nIDemoProcessor process start");
+        messager.printMessage(Diagnostic.Kind.NOTE, "\nroundEnvironment class:"+roundEnvironment.getClass().getCanonicalName());
+        messager.printMessage(Diagnostic.Kind.NOTE, "\nset长度：" + set.size());// 找到的注解类型长度，不是添加了注解的类的集合。是getSupportedAnnotationTypes()的一个子集
 
         Set<? extends Element> elementSet = roundEnvironment.getElementsAnnotatedWith(IDModule.class);
-        messager.printMessage(Diagnostic.Kind.NOTE, "IDModule集合长度：" + elementSet.size());
+        messager.printMessage(Diagnostic.Kind.NOTE, "\nIDModule集合长度：" + elementSet.size());
 
-        messager.printMessage(Diagnostic.Kind.NOTE, "=================");
+        messager.printMessage(Diagnostic.Kind.NOTE, "\n=================");
         for (Element element : elementSet) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "元素名：" + element.getSimpleName());
+            messager.printMessage(Diagnostic.Kind.NOTE, "\n元素名：" + element.getSimpleName());
             if (element.getKind() == ElementKind.CLASS || element.getKind() == ElementKind.INTERFACE){
                 IDModule classAnnotation = element.getAnnotation(IDModule.class);
                 if (classAnnotation != null){
-                    messager.printMessage(Diagnostic.Kind.NOTE, "IDModule desc是:" + classAnnotation.desc());
-                    messager.printMessage(Diagnostic.Kind.NOTE, "IDModule indexTime是:" + classAnnotation.indexTime());
+                    messager.printMessage(Diagnostic.Kind.NOTE, "\nIDModule desc是:" + classAnnotation.desc());
+                    messager.printMessage(Diagnostic.Kind.NOTE, "\nIDModule indexTime是:" + classAnnotation.indexTime());
 
                     // 加入类信息映射关系到内存
                     String preModuleName;
@@ -91,7 +91,7 @@ public class IDemoProcessor extends AbstractProcessor {
                         preModuleName = classAnnotation.preModule().getCanonicalName();
                     } catch (MirroredTypeException e){
                         preModuleName = e.getTypeMirror().toString();
-                        messager.printMessage(Diagnostic.Kind.NOTE, "IDModule preModule是:" + e.getTypeMirror().toString());
+                        messager.printMessage(Diagnostic.Kind.NOTE, "\nIDModule preModule是:" + e.getTypeMirror().toString());
                     }
                     LinkedList<IDItemInfo> itemListOfParent = classInfoCache.get(preModuleName);// 找出与之同父级的二级类列表
                     if(itemListOfParent == null){
@@ -116,10 +116,10 @@ public class IDemoProcessor extends AbstractProcessor {
                     List<? extends Element> functionElements = element.getEnclosedElements();
                     IDItemInfo childItemInfo;
                     for (Element functionElement : functionElements) {// 方法和构造器列表
-                        messager.printMessage(Diagnostic.Kind.NOTE, "functionElement name：" + functionElement.getSimpleName());
+                        messager.printMessage(Diagnostic.Kind.NOTE, "\nfunctionElement name：" + functionElement.getSimpleName());
                         IDAction funAnnotation = functionElement.getAnnotation(IDAction.class);
                         if(funAnnotation != null){
-                            messager.printMessage(Diagnostic.Kind.NOTE, "注解item值是:" + funAnnotation.itemName());
+                            messager.printMessage(Diagnostic.Kind.NOTE, "\n注解item值是:" + funAnnotation.itemName());
                             childItemInfo = new IDItemInfo();
                             childItemInfo.setItemName((funAnnotation.itemName()==null||"".equals(funAnnotation.itemName()))?functionElement.getSimpleName().toString():funAnnotation.itemName());
                             childItemInfo.setClassName(element.asType().toString());
@@ -132,41 +132,41 @@ public class IDemoProcessor extends AbstractProcessor {
                 }
 
                 Name qualifiedName = ((TypeElement)element).getQualifiedName();
-                messager.printMessage(Diagnostic.Kind.NOTE, "qualifiedName：" + qualifiedName.toString());
-                messager.printMessage(Diagnostic.Kind.NOTE, "name type：" + qualifiedName.getClass().getCanonicalName());
+                messager.printMessage(Diagnostic.Kind.NOTE, "\nqualifiedName：" + qualifiedName.toString());
+                messager.printMessage(Diagnostic.Kind.NOTE, "\nname type：" + qualifiedName.getClass().getCanonicalName());
 
                 List<? extends Element> classEnclosedElements = element.getEnclosedElements();
                 for (Element enclosedElement : classEnclosedElements) {// 方法和构造器列表
-                    messager.printMessage(Diagnostic.Kind.NOTE, "classEnclosedElements name：" + enclosedElement.getSimpleName());
+                    messager.printMessage(Diagnostic.Kind.NOTE, "\nclassEnclosedElements name：" + enclosedElement.getSimpleName());
                     IDAction funAnnotation = enclosedElement.getAnnotation(IDAction.class);
                     if(funAnnotation == null){
-                        messager.printMessage(Diagnostic.Kind.NOTE, "注解是空？");
+                        messager.printMessage(Diagnostic.Kind.NOTE, "\n注解是空？");
                     } else {
-                        messager.printMessage(Diagnostic.Kind.NOTE, "注解item值是:" + funAnnotation.itemName());
+                        messager.printMessage(Diagnostic.Kind.NOTE, "\n注解item值是:" + funAnnotation.itemName());
                     }
 
-                    messager.printMessage(Diagnostic.Kind.NOTE, "#################");
+                    messager.printMessage(Diagnostic.Kind.NOTE, "\n#################");
                 }
 
                 // 取方法
                 // 这种方式是直接从RoundEnvironment取，取出来的是全部注解的方法，没有区分类。
-                messager.printMessage(Diagnostic.Kind.NOTE, "element type：" + element.getClass().getCanonicalName());
+                messager.printMessage(Diagnostic.Kind.NOTE, "\nelement type：" + element.getClass().getCanonicalName());
                 Set<? extends Element> functionElements = roundEnvironment.getElementsAnnotatedWith(IDAction.class);
-                messager.printMessage(Diagnostic.Kind.NOTE, "方法长度：" + functionElements.size());
-                messager.printMessage(Diagnostic.Kind.NOTE, "-----------------");
+                messager.printMessage(Diagnostic.Kind.NOTE, "\n方法长度：" + functionElements.size());
+                messager.printMessage(Diagnostic.Kind.NOTE, "\n-----------------");
                 for (Element functionElement : functionElements) {
                     List<? extends Element> enclosedElements = functionElement.getEnclosedElements();
 
-                    messager.printMessage(Diagnostic.Kind.NOTE, "function Type：" + functionElement.getClass().getCanonicalName());
-                    messager.printMessage(Diagnostic.Kind.NOTE, "getEnclosingElement getSimpleName：" + functionElement.getEnclosingElement().getSimpleName());
-                    messager.printMessage(Diagnostic.Kind.NOTE, "— — — — — — — — — —");
+                    messager.printMessage(Diagnostic.Kind.NOTE, "\nfunction Type：" + functionElement.getClass().getCanonicalName());
+                    messager.printMessage(Diagnostic.Kind.NOTE, "\ngetEnclosingElement getSimpleName：" + functionElement.getEnclosingElement().getSimpleName());
+                    messager.printMessage(Diagnostic.Kind.NOTE, "\n— — — — — — — — — —");
                     for (Element enclosedElement : enclosedElements) {
-                        messager.printMessage(Diagnostic.Kind.NOTE, "enclosedElement name：" + enclosedElement.getSimpleName());
+                        messager.printMessage(Diagnostic.Kind.NOTE, "\nenclosedElement name：" + enclosedElement.getSimpleName());
                     }
                 }
 
             }else {
-                messager.printMessage(Diagnostic.Kind.NOTE, "这个注解应当只在类或接口上添加");
+                messager.printMessage(Diagnostic.Kind.NOTE, "\n这个注解应当只在类或接口上添加");
             }
 //            messager.printMessage(Diagnostic.Kind.WARNING, "元素名：" + element.getSimpleName());
 //            messager.printMessage(Diagnostic.Kind.WARNING, "元素名：" + element.getSimpleName());
