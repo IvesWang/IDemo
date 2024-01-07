@@ -69,16 +69,21 @@ public class IDemoProcessor extends AbstractProcessor {
         // 创建新类把缓存信息作为硬编码写入
 
         Messager messager = processingEnv.getMessager();
-        messager.printMessage(Diagnostic.Kind.NOTE, "\nIDemoProcessor process start");
+        messager.printMessage(Diagnostic.Kind.NOTE, "\n\nIDemoProcessor process start");
         messager.printMessage(Diagnostic.Kind.NOTE, "\nroundEnvironment class:"+roundEnvironment.getClass().getCanonicalName());
         messager.printMessage(Diagnostic.Kind.NOTE, "\nset长度：" + set.size());// 找到的注解类型长度，不是添加了注解的类的集合。是getSupportedAnnotationTypes()的一个子集
+
+        if (set.isEmpty()){
+            messager.printMessage(Diagnostic.Kind.NOTE, "\nset empty,ignore.");
+            return false;
+        }
 
         Set<? extends Element> elementSet = roundEnvironment.getElementsAnnotatedWith(IDModule.class);
         messager.printMessage(Diagnostic.Kind.NOTE, "\nIDModule集合长度：" + elementSet.size());
 
         messager.printMessage(Diagnostic.Kind.NOTE, "\n=================");
         for (Element element : elementSet) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "\n元素名：" + element.getSimpleName());
+            messager.printMessage(Diagnostic.Kind.NOTE, "\n\n元素名：" + element.getSimpleName());
             if (element.getKind() == ElementKind.CLASS || element.getKind() == ElementKind.INTERFACE){
                 IDModule classAnnotation = element.getAnnotation(IDModule.class);
                 if (classAnnotation != null){
@@ -189,7 +194,7 @@ public class IDemoProcessor extends AbstractProcessor {
 //                } catch (IOException e) {
 //                    e.printStackTrace();
 //                }
-        return false;
+        return true;//true-只被当前processor处理 false-后续其它处理器可继续处理
     }
 
     @Override
